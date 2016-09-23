@@ -1,0 +1,399 @@
+.footer {
+    box-sizing: content-box !important;
+}
+
+.verticalcenter {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.whitesmoke {
+    background-color: whitesmoke;
+}
+
+.userContainer {
+    float: right;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.userIcon {
+    float: right;
+    margin-right: 15px;
+    cursor:pointer;
+}
+
+#accountDropDown {
+	position:absolute;
+	z-index:9;
+	text-align:center;
+	vertical-align:middle;
+	margin-top:30px;
+	margin-right:50px;
+	padding-top:10px;
+	padding-bottom:10px;
+	width:150px;
+	white-space:nowrap;
+	background-color:gray;
+	border:2px solid black;
+	display:none;
+	color:white;
+}
+
+#changePassword, #logOut {
+	color:white;
+	text-decoration:none;
+	cursor:pointer;
+}
+
+#newPasswordDiv {
+	display:none;
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.passInput {
+	margin-top:20px;
+}
+.userName {
+    float: left;
+    text-align: right;
+    margin-right: 15px;
+}
+
+.leftLinkItem {
+	list-style-type:none; 
+	color:white; 
+	font-size:12px; 
+	cursor:pointer;
+}
+
+.editBelowLink, .editBelowTherapyLink, .addToTherapyLinkBelow, .addToFormLinkBelow {
+	display:none;
+	list-style-type:none;
+	cursor:pointer;
+	background-color:white;
+}
+
+.editLink, .editTherapyLink, .addToTherapyLink, .editFormLink {
+	color:#303030;
+	font-weight:bold;
+	padding-left:10px;
+}
+
+.selectedLeftLink {
+	background-color:lightgray;
+	font-weight:bold;
+	color:black;
+	margin-left:0;
+	padding-left:5px;
+}
+
+.leftListDiv {
+	background-color:#747474;
+	overflow:auto; 
+	width:200px; 
+	float:left;
+	padding-bottom:43px;
+	text-align:center;
+	z-index: 1;
+}
+
+.leftSideBackground {
+	background-color:#747474;
+	height: 100%;
+	position: fixed;
+	z-index: -1;
+	width: 200px;
+	left: 0;
+	margin-top: -100px;
+}
+
+.contentHolder {
+    height: auto;
+    width: auto;
+    min-height:50%;
+    margin-left: 230px;
+    margin-right: 30px;
+    border-top-color: rgb(199, 199, 199);
+    border-right-color: rgb(199, 199, 199);
+    border-bottom-color: rgb(199, 199, 199);
+    border-left-color: rgb(199, 199, 199);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    -webkit-box-shadow: rgb(78, 78, 78) 2px 2px 5px 0px;
+    box-shadow: rgb(78, 78, 78) 2px 2px 5px 0px;
+    margin-bottom: 80px;
+    margin-top: 30px;
+    padding: 30px;
+}
+
+
+.leftListHeading {
+	font-size: 14px; 
+	color:white;
+	text-align:center; 
+	font-weight:bold; 
+	padding-top:0; 
+	padding-bottom:3px;; 
+	margin-bottom:0;	
+}
+
+#leftListItems {
+	text-align:left; 
+	font-size:12px; 
+	color:white; 
+	padding-left:15px;
+	padding-bottom:8px;
+	margin-bottom:0;
+}
+
+.hiddenWNumber, .hiddenTherapyId, .hiddenFormId {
+	display:none;
+}
+
+.adminContainer {
+	width: 100%;
+}
+
+#leftListButton {
+	color:black; 
+	font-size:12px; 
+	white-space:nowrap;  
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align:center;
+}
+
+.leftListHR {
+	width:95%; 
+	text-align:center; 
+	margin-top:0; 
+	margin-bottom:5px;
+}
+
+.leftButtons {
+	display:inline-block;
+	width: 50%;
+}
+
+.rightButtons {
+	float: right;
+	display:inline-block;
+	width: 50%;
+}
+
+.optionButtons {
+	display: block;
+	width: 70%;
+	height: 75px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 30px;
+	font-weight: bold;
+}
+
+.formDiv {
+	margin-left:auto; 
+	margin-right:auto; 
+	text-align:center; 
+	margin-top:20px;
+}
+
+.formHR {
+	border-style:inset; 
+	border-width:1px; 
+	width:80%; 
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.formFooterWithButtonsDiv {
+	margin-left:auto; 
+	margin-right:auto; 
+	text-align:center; 
+	padding-bottom:30px;
+}
+
+.userDivButton {
+	margin-left:10px;
+	margin-right:10px;
+}
+
+#userFormSaveButton {
+	padding-right:10px;
+	padding-left:10px;
+}
+
+#userFormUpdateButton {
+	padding-right:10px;
+	padding-left:10px;
+	display:none;
+}
+
+#buttonsToTheLeftSpan {
+	margin-right:200px;
+}
+#newUserDiv {
+	background-color: #D0D0D0;
+	color: black;
+}
+
+.menu {
+    height: 53px;
+    background-color: whitesmoke;
+    padding-top: 13px;
+    margin-top: -10px;
+    z-index: -2;
+    margin-left: 200px;
+    padding-left: 5px;
+}
+
+.menuTabs {
+	padding-top: 5px;
+}
+
+.menuTab {
+	width: 100px;
+	background-color: #e0e0e0;
+	height: 35px;
+	text-align: center;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+
+.menuFilters {
+	height: 30px;
+	background-color: #c0c0c0;
+	padding-top: 4px;	
+}
+
+.hideFilters {
+	display: none;
+}
+
+.filterButton { 
+  color: white; 
+  background-color: #808080; 
+  border-color: #CFCFCF; 
+  margin-left: 5px;
+} 
+ 
+.filterButton:hover, 
+.filterButton:focus, 
+.filterButton:active, 
+.filterButton.active, 
+.open .dropdown-toggle.filterButton { 
+  color: #1C1C1C; 
+  background-color: #FFFFFF; 
+  border-color: #CFCFCF; 
+} 
+ 
+.filterButton:active, 
+.filterButton.active, 
+.open .dropdown-toggle.filterButton { 
+  background-image: none; 
+} 
+ 
+.filterButton.disabled, 
+.filterButton[disabled], 
+fieldset[disabled] .filterButton, 
+.filterButton.disabled:hover, 
+.filterButton[disabled]:hover, 
+fieldset[disabled] .filterButton:hover, 
+.filterButton.disabled:focus, 
+.filterButton[disabled]:focus, 
+fieldset[disabled] .filterButton:focus, 
+.filterButton.disabled:active, 
+.filterButton[disabled]:active, 
+fieldset[disabled] .filterButton:active, 
+.filterButton.disabled.active, 
+.filterButton[disabled].active, 
+fieldset[disabled] .filterButton.active { 
+  background-color: #F7F7F7; 
+  border-color: #CFCFCF; 
+} 
+ 
+.filterButton .badge { 
+  color: #F7F7F7; 
+  background-color: #1C1C1C; 
+}
+
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+/***********************************************MEDIA QUERIES***********************************************/
+
+@media screen and (min-width: 1400px) {
+	.optionButtons {
+		width: 40%;
+		display: inline;
+		margin-left: 2.5%;
+		margin-right: 2.5%;
+	}
+	
+	.leftButtons {
+		text-align: center;
+	}
+	
+	.rightButtons {
+		text-align: center;
+	}
+    
+}
+
+@media screen and (max-width: 1020px) {
+    
+    .optionButtons {
+    	width: 85%;
+		height: 65px;
+		font-size: 12pt;
+		font-weight: bold;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    
+    .leftButtons {
+    	width: 100%;
+    }
+    
+    .rightButtons {
+    	float: none;
+    	width: 100%;
+    }
+    
+    .optionButtons {
+    	width: 60%;
+    	margin-bottom: 15px;
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+
+}
+
+@media only screen and (max-width: 480px) {
+    .header {
+        height: 10%;
+        min-height: 0px;
+        margin-bottom: 0px;
+    }
+
+}
+

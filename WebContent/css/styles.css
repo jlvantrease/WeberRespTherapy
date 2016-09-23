@@ -1,0 +1,126 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+.primaryContainer {
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.header {
+    display: inline-block;
+    width: 100%;
+    background-color: rgb(73, 35, 101);
+    -webkit-box-shadow: rgb(0, 0, 0) 0px 1px 5px 0px;
+    box-shadow: rgb(0, 0, 0) 0px 1px 5px 0px;
+    height: 100px;
+    z-index: 5;
+    margin-bottom: -5px;
+}
+
+.logo {
+    float: left;
+    width: 400px;
+    height: auto;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.footer {
+    height: 20px;
+    width: 100%;
+    position: fixed;
+    bottom: 0 !important;
+    background-color: rgb(87, 80, 71);
+    border-top-color: rgb(0, 0, 0);
+    border-top-width: 2px;
+    border-top-style: solid;
+    z-index: 100;
+    padding-top: 10px;
+    margin-top: -25px;
+}
+
+#text {
+    float: left;
+    font-size: .9em;
+    text-align: left;
+    font-weight: 900;
+    line-height: 1em;
+    margin-left: 1.979778%;
+    margin-top: 0;
+    min-height: 1px;
+    color: rgb(255, 255, 255);
+}
+
+.container {
+    height: 100%;
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    margin-bottom: 80px;
+}
+
+.item {
+    float: left;
+    height: 100%;
+    width: 100px;
+    display: inline;
+}
+
+.itemContainer {
+    
+    height: 100%;
+    margin: 0px auto;
+    
+    width: 400px;
+    min-height: 0%;
+    min-width: 200px;
+    max-height: none;
+}
+
+
+@media only screen and (max-width: 767px) {
+    .container {
+        width: 85%;
+    }
+    
+    .logo {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 370px;
+        height: auto;
+        float: none;
+    }
+
+    .header {
+        text-align: center;
+    }
+
+}
+
+@media only screen and (max-width: 480px) {
+    .header {
+        height: 10%;
+        margin-bottom: 0px;
+    }
+
+    .logo {
+        margin: 20px auto;
+        max-width: 95%;
+    }
+
+    .container {
+
+        margin-left: 6.132813%;
+        clear: both;
+        width: 87.73112%;
+    }
+}
+

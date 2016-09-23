@@ -1,0 +1,228 @@
+html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+body { margin: 0; font-size: 100%; line-height: 1.231; text-align: center}
+
+body, button, input, select, textarea { font-family: helvetica, arial,"lucida grande", verdana, sans-serif; }
+
+.primaryContainer {
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 100%;
+    width: 100%;
+}
+
+#_logo2 {
+    float: none;
+    width: 268px;
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-top: 60px;
+    clear: none;
+    color: rgb(0, 0, 0);
+    margin-right: auto;
+}
+
+#_title {
+    float: none;
+    font-size: 2em;
+    width: 268.734375px;
+    height: auto;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1em;
+    margin-left: auto;
+    margin-top: 30px;
+    clear: none;
+    min-height: 38px;
+    min-width: 0px;
+    max-width: 100%;
+    font-family: arial;
+    font-style: normal;
+    color: rgba(87, 80, 71, 0.870588);
+    text-decoration: none;
+    margin-right: auto;
+}
+
+#_login {
+    float: none;
+    height: auto;
+    margin-left: auto;
+    margin-top: 30px;
+    clear: none;
+    width: 450px;
+    margin-right: auto;
+    border-top-color: rgb(199, 199, 199);
+    border-right-color: rgb(199, 199, 199);
+    border-bottom-color: rgb(199, 199, 199);
+    border-left-color: rgb(199, 199, 199);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    min-width: 30px;
+    max-width: 96%;
+    -webkit-box-shadow: rgb(78, 78, 78) 2px 2px 5px 0px;
+    box-shadow: rgb(78, 78, 78) 2px 2px 5px 0px;
+    margin-bottom: 100px;
+}
+
+#signIn {
+    float: none;
+    height: 40px;
+    font-size: 1.4em;
+    margin-left: auto;
+    margin-top: 20px;
+    clear: none;
+    width: 50%;
+    margin-bottom: 20px;
+    margin-right: auto;
+    font-family: arial;
+    max-width: 90%;
+    max-height: none;
+    min-height: 0px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(52, 96, 148);
+    font-weight: 700;
+    border-top-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    display: block;
+}
+
+.textinput {
+    float: none;
+    height: 50px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 2.4%;
+    font-size: 1.5em;
+    display: block;
+    text-align: left;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-color: rgb(230, 230, 230);
+    border-right-color: rgb(230, 230, 230);
+    border-bottom-color: rgb(230, 230, 230);
+    border-left-color: rgb(230, 230, 230);
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    -webkit-box-shadow: rgb(0, 0, 0) 0px 1px 3px 0px inset;
+    box-shadow: rgb(0, 0, 0) 0px 1px 3px 0px inset;
+}
+
+
+
+#signIn:hover {
+    background-color: rgb(60, 112, 172);
+}
+
+#signIn:active {
+    -webkit-box-shadow: rgba(0, 0, 0, 0.721569) 1px 3px 5px 0px inset;
+    box-shadow: rgba(0, 0, 0, 0.721569) 1px 3px 5px 0px inset;
+    background-color: rgb(50, 93, 143);
+}
+
+.disclaimer
+{
+    color: rgb(168, 162, 162);
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: sans-serif;
+    font-size: 11pt;
+}
+
+@media only screen and (max-width: 800px) {
+
+    #_logo2 {
+        margin-top: 20px;
+        width: 230px;
+    }
+
+    #_title {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 1.7em;
+    }
+
+    #_login {
+        margin-top: 15px;
+        max-width: 80%;
+        width: 409px;
+    }
+    
+    #signIn {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        height: 35px;
+        width: 80%;
+        max-width: none;
+    }
+
+}
+
+@media only screen and (max-width: 480px) {
+    #_logo2 {
+        width: 225px;
+        max-width: 75%;
+        margin-top: 40px;
+    }
+
+    #_title {
+        font-size: 1.6em;
+        margin-top: 15px;
+        width: 225px;
+    }
+
+    #signIn {
+        margin-top: 15px;
+        margin-right: auto;
+        margin-bottom: 15px;
+        margin-left: auto;
+        float: none;
+        clear: none;
+        font-weight: 500;
+        width: 80%;
+        height: 33px;
+        max-width: none;
+    }
+
+
+    #_login {
+        margin-top: 15px;
+        width: 350px;
+        max-width: 80%;
+    }
+    
+    .textinput
+    {
+        font-size: 1.3em;
+    }
+}
+
