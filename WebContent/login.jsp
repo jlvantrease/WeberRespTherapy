@@ -50,7 +50,7 @@
 			$("#invalidLogin").show();
 		<%}
 		else if(session.getAttribute("user") != null) { %>
-			$(location).attr('href',"http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+			$(location).attr('href',"http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 		<%}%>
     });
     	$("#login").submit(function(event){
@@ -62,7 +62,7 @@
     			data: {username: $("#username").val(), password: $("#password").val(), type: 'login'},
     			success: function data()
     			{
-    				//$(location).attr('href',"http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");		
+    				//$(location).attr('href',"http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");		
     				window.location.reload();
     			}
     			

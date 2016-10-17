@@ -1,21 +1,13 @@
 package edu.weber.resptherapy.charting;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -30,9 +22,10 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
-import com.lowagie.text.html.simpleparser.StyleSheet;
 import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.codec.Base64;
+
+import edu.weber.resptherapy.charting.model.Formtemplate;
+import edu.weber.resptherapy.charting.model.Userform;
 
 /**
  * Servlet implementation class ServletForms
@@ -129,57 +122,53 @@ public class ServletForms extends HttpServlet {
 		
 		Date todaysDate = new Date();
 		
-		DatabaseConnector connector = new DatabaseConnector();
-		
-		try {
-			
-			Connection conn = connector.connectDatabase();
+//		DatabaseConnector connector = new DatabaseConnector();
+//		
+//		try {
+//			
+//			Connection conn = connector.connectDatabase();
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.createForm(conn, theFormHtml, userId, todaysDate, theFormName);
+			return calls.createForm(theFormHtml, userId, todaysDate, theFormName);
 		
-		}catch(Exception e){
-			e.printStackTrace();
-			
-			return false; // if we get here, creating a new form didn't work
-		}
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			
+//			return false; // if we get here, creating a new Formtemplate didn't work
+//		}
 		
 		
 	}
 	
-	//Map<String, Form> getAllForms()
-	public Map<Integer, Form> getAllForms(String theUserId){
+	//Map<String, Formtemplate> getAllForms()
+	public Map<Integer, Userform> getAllForms(String theUserId){
 		
-		DatabaseConnector connector = new DatabaseConnector();
 		
 		try {
-			
-			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.getAllForms(conn, theUserId);
-		
-		}catch(Exception e){
+			return calls.getAllForms(theUserId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
 			return null; // if we get here, getting all forms didn't work
 		}
+
 	}
 	
 	//boolean updateForm()
 	public boolean updateForm(String theFormName, String theFormHtml, int theFormId, String theUserId){
 		
-		DatabaseConnector connector = new DatabaseConnector();
-		
+//		DatabaseConnector connector = new DatabaseConnector();
+//		
 		try {
-			
-			Connection conn = connector.connectDatabase();
+//			
+//			Connection conn = connector.connectDatabase();
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.updateForm(conn, theFormName, theFormHtml, theFormId, theUserId);
+			return calls.updateForm( theFormName, theFormHtml, theFormId, theUserId);
 		
 		}catch(Exception e){
 			e.printStackTrace();
@@ -189,23 +178,23 @@ public class ServletForms extends HttpServlet {
 	}
 	
 	//boolean updateForm()
-		public Form getFormToEdit(String userId, int theFormId){
+		public Formtemplate getFormToEdit(String userId, int theFormId){
 			
-			DatabaseConnector connector = new DatabaseConnector();
-			
-			try {
-				
-				Connection conn = connector.connectDatabase();
+//			DatabaseConnector connector = new DatabaseConnector();
+//			
+//			try {
+//				
+//				Connection conn = connector.connectDatabase();
 				
 				DatabaseCalls calls = new DatabaseCalls();
 				
-				return calls.getFormToEdit(conn, userId, theFormId);
+				return calls.getFormToEdit( userId, theFormId);
 			
-			}catch(Exception e){
-				e.printStackTrace();
-				
-				return null; // if we get here, getting all forms didn't work
-			}
+//			}catch(Exception e){
+//				e.printStackTrace();
+//				
+//				return null; // if we get here, getting all forms didn't work
+//			}
 		}
 
 	public void generatePDF(OutputStream out, String userID, int formID){
@@ -307,7 +296,7 @@ public class ServletForms extends HttpServlet {
 //			//Instance for stylesheet
 //			StyleSheet stylez = new StyleSheet();
 //			//load a basic font. can also do other functions
-//			stylez.loadTagStyle(“body”, “font”, “Times New Roman”);
+//			stylez.loadTagStyle(ï¿½bodyï¿½, ï¿½fontï¿½, ï¿½Times New Romanï¿½);
 //			//HTML worker in simpleParser
 //			ArrayList arrayElementList = HTMLWorker.parseToList(htmlReader, stylez);
 //			//Add to the document
@@ -320,7 +309,7 @@ public class ServletForms extends HttpServlet {
 //			byte[] byt = byteAOS.toByteArray();
 //			//encode the bytes
 //			String pdfBase64 = Base64.encodeBytes(byt);
-//			File pdfFile = new File(“Worked.pdf”); //target name. change accordingly
+//			File pdfFile = new File(ï¿½Worked.pdfï¿½); //target name. change accordingly
 //			FileOutputStream out = new FileOutputStream(pdfFile);
 //			out.write(byt);
 //			out.close();

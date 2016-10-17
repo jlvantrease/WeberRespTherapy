@@ -5,9 +5,9 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="edu.weber.resptherapy.charting.Dashboard"%>
-<%@ page import="edu.weber.resptherapy.charting.User"%>
-<%@ page import="edu.weber.resptherapy.charting.TherapyTemplate"%>
-<%@ page import="edu.weber.resptherapy.charting.Form"%>
+<%@ page import="edu.weber.resptherapy.charting.model.User"%>
+<%@ page import="edu.weber.resptherapy.charting.model.Userform"%>
+<%@ page import="edu.weber.resptherapy.charting.model.Formtemplate"%>
 <%@ page import="java.io.BufferedReader"%>
 <%@ page import="java.io.StringReader"%>
 
@@ -28,7 +28,7 @@
 	Map<String, User> allUsers = new HashMap<String, User>();
 %>
 <%
-	Map<Integer, TherapyTemplate> allTemplates = new HashMap<Integer, TherapyTemplate>();
+	Map<Integer, Formtemplate> allTemplates = new HashMap<Integer, Formtemplate>();
 %>
 <%
 	boolean isEditingTemplate = false;
@@ -43,13 +43,13 @@
 	User userBeingEdited = (User) session.getAttribute("userToBeEdited");
 %>
 <%
-	TherapyTemplate getTemplateToFillOut = (TherapyTemplate) session.getAttribute("getTemplateToFillOut");
+Formtemplate getTemplateToFillOut = (Formtemplate) session.getAttribute("getTemplateToFillOut");
 %>
 <%
-	Map<Integer, Form> userForms = (Map<Integer, Form>) session.getAttribute("userForms");
+	Map<Integer, Userform> userForms = (Map<Integer, Userform>) session.getAttribute("userForms");
 %>
 <%
-	Form formToFillOut =  (Form) session.getAttribute("formToFillOut");
+Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
 %>
 
 <!DOCTYPE html>
@@ -305,7 +305,7 @@
 		  var formName = '<%=loggedInUser.getUserId()%>';
 		  
 		  <%if(formToFillOut != null) {%>
-		  	var formId = '<%=formToFillOut.getId()%>';
+		  	var formId = '<%=formToFillOut.getUserFormId()%>';
 		  <%}%>
 			  
 		  if($("#formName").val() != null) {
@@ -352,24 +352,24 @@
  //Fill outs the user name and w# in the top righthand corner of the header  
   function populateLoggedInUserInfo() {
 	//Fill outs the user name and w# in the top righthand corner of the header
-  	$("#userNameDisplay").html('<%=loggedInUser.getFirstName() + " " + loggedInUser.getLastName()%>');
+  	$("#userNameDisplay").html('<%=loggedInUser.getUserFirst() + " " + loggedInUser.getUserLast()%>');
   	$("#wNumberDisplay").html("<%=loggedInUser.getUserId()%>"); 
   }
  
  function showStudentOrAdminDashboard() {
 	//Admin sees tabs to get users
- 	<%if(loggedInUser.isAdmin()) { %>
+ 	<%if(loggedInUser.isUserAdmin()) { %>  
         	showAdminDashboard();
         	setEditTemplateFunctionality();
         	<%allUsers = (HashMap<String, User>) session.getAttribute("allUsers");%>
         	
         	//If the admin is editing a user the userToBeEdited is retrieved from the session and the user info is loaded into the user edit form
         		<%if(isEditingUser && userBeingEdited != null) {%>
-        		showUserToEditInfo('<%=userBeingEdited.getUserId()%>', '<%=userBeingEdited.getFirstName()%>', '<%=userBeingEdited.getLastName()%>', '<%=userBeingEdited.getEmail()%>', '<%=userBeingEdited.getYear()%>', '<%=userBeingEdited.isActive()%>', '<%=userBeingEdited.isAdmin()%>');
+        		showUserToEditInfo('<%=userBeingEdited.getUserId()%>', '<%=userBeingEdited.getUserFirst()%>', '<%=userBeingEdited.getUserLast()%>', '<%=userBeingEdited.getUserEmail()%>', '<%=userBeingEdited.getUserYear()%>', '<%=userBeingEdited.isUserActive()%>', '<%=userBeingEdited.isUserAdmin()%>');
 				showEditUserWithLoadedInfo();
 				<%}
         	
-        		else if (isEditingTemplate && getTemplateToFillOut != null && loggedInUser.isAdmin()) { %>
+        		else if (isEditingTemplate && getTemplateToFillOut != null && loggedInUser.isUserAdmin() ) { %>
         			$('#contentHolder').children().hide();
         			$('#formBuilder').show();	
 					$('#generatedForm').html(<%=getTemplateToFillOut%>);
@@ -378,12 +378,12 @@
  	
  	
  	    //If the logged in user is a student and they are filling out a new form - show the original template
-		else if(!loggedInUser.isAdmin()) {%>	
+		else if(!loggedInUser.isUserAdmin()) {%>	
 			showUserDashboard();
 			
 			<%if(isEditingTemplate && getTemplateToFillOut != null) {%>
 				<%String templateHtml = ""; 
-				BufferedReader bufReader = new BufferedReader(new StringReader(getTemplateToFillOut.getTheHtml()));
+				BufferedReader bufReader = new BufferedReader(new StringReader(getTemplateToFillOut.getFormTemplateHtml() ));
 				String line=null;
 				while( (line=bufReader.readLine()) != null )
 				{
@@ -402,7 +402,7 @@
 			//If the logged in user is a student and they are editing one of their previous forms
 			else if(isEditingForm && formToFillOut != null) {%>
 				<%String formHtml = ""; 
-				BufferedReader bufReader = new BufferedReader(new StringReader(formToFillOut.getTheFormHtml()));
+				BufferedReader bufReader = new BufferedReader(new StringReader(formToFillOut.getFormTemplateHtml()));
 				String line=null;
 				while( (line=bufReader.readLine()) != null ) {
 					formHtml += line;
@@ -416,7 +416,7 @@
 		}
 
 		//All templates are loaded from the session to display on the left side
-	    allTemplates = (HashMap<Integer, TherapyTemplate>) session.getAttribute("allTemplates"); %>
+	    allTemplates = (HashMap<Integer, Formtemplate>) session.getAttribute("allTemplates"); %>
 	}
 
 	function showFormsOfUserLinks() {
@@ -427,10 +427,10 @@
 		<%if(userForms != null) {
 			Map<String, String> personalForms = new HashMap<String, String>();
 			for(Integer key : userForms.keySet()) {
-				personalForms.put("" + userForms.get(key).getId(), userForms.get(key).getName());
+				personalForms.put("" + userForms.get(key).getUserFormId(), userForms.get(key).getUserFormName());
 			}
 					
-			String userFormsHtml = dashboard.updateLeftLinks(personalForms, "forms", loggedInUser.isAdmin());%>
+			String userFormsHtml = dashboard.updateLeftLinks(personalForms, "forms", loggedInUser.isUserAdmin());%>
 			
 			$("#leftListItems").replaceWith(<%=userFormsHtml%>);
 		<%}%>
@@ -447,7 +447,7 @@
         		Map<String, String> firstYearStudents = new HashMap<String, String>();
         		
         		for(String key : currentFirstYears.keySet()) {
-        			firstYearStudents.put(currentFirstYears.get(key).getUserId(), currentFirstYears.get(key).getLastName() + ", " + currentFirstYears.get(key).getFirstName());
+        			firstYearStudents.put(currentFirstYears.get(key).getUserId(), currentFirstYears.get(key).getUserLast() + ", " + currentFirstYears.get(key).getUserFirst());
         		}
         		String newFirstYearsHtml = dashboard.updateLeftLinks(firstYearStudents, "users", true);%>
 				$("#leftListItems").replaceWith(<%=newFirstYearsHtml%>);
@@ -462,7 +462,7 @@
 			<%Map<String, User> currentSecondYears = dashboard.getCurrentSecondYears(allUsers); 
         	Map<String, String> secondYearStudents = new HashMap<String, String>();
         	for(String key : currentSecondYears.keySet()) {
-        		secondYearStudents.put(currentSecondYears.get(key).getUserId(), currentSecondYears.get(key).getLastName() + ", " + currentSecondYears.get(key).getFirstName());
+        		secondYearStudents.put(currentSecondYears.get(key).getUserId(), currentSecondYears.get(key).getUserLast() + ", " + currentSecondYears.get(key).getUserFirst());
         	}
         		
         	String newSecondYearsHtml = dashboard.updateLeftLinks(secondYearStudents, "users", true);%>
@@ -478,12 +478,12 @@
 			<%Map<String, User> allStudentsFirstYear = dashboard.getCurrentFirstYears(allUsers); 
         	Map<String, String> allStudents = new HashMap<String, String>();
         	for(String key : allStudentsFirstYear.keySet()) {
-        		allStudents.put(allStudentsFirstYear.get(key).getUserId(), allStudentsFirstYear.get(key).getLastName() + ", " + allStudentsFirstYear.get(key).getFirstName());
+        		allStudents.put(allStudentsFirstYear.get(key).getUserId(), allStudentsFirstYear.get(key).getUserLast() + ", " + allStudentsFirstYear.get(key).getUserFirst());
         	}
         		
         	Map<String, User> allStudentsSecondYear = dashboard.getCurrentSecondYears(allUsers); 
         	for(String key : allStudentsSecondYear.keySet()) {
-        		allStudents.put(allStudentsSecondYear.get(key).getUserId(), allStudentsSecondYear.get(key).getLastName() + ", " + allStudentsSecondYear.get(key).getFirstName());
+        		allStudents.put(allStudentsSecondYear.get(key).getUserId(), allStudentsSecondYear.get(key).getUserLast() + ", " + allStudentsSecondYear.get(key).getUserFirst());
         	}
 
         	String newAllStudentsHtml = dashboard.updateLeftLinks(allStudents, "users", true);%>
@@ -499,7 +499,7 @@
 			<%Map<String, User> inactiveUserMap = dashboard.getInactiveUsers(allUsers);
         	Map<String, String> inactiveUsers = new HashMap<String, String>();
         	for(String key : inactiveUserMap.keySet()) {
-        		inactiveUsers.put(inactiveUserMap.get(key).getUserId(), inactiveUserMap.get(key).getLastName() + ", " + inactiveUserMap.get(key).getFirstName());
+        		inactiveUsers.put(inactiveUserMap.get(key).getUserId(), inactiveUserMap.get(key).getUserLast() + ", " + inactiveUserMap.get(key).getUserFirst());
         	}
         	String newInactiveStudentsHtml = dashboard.updateLeftLinks(inactiveUsers, "users", true);%>
 			$("#leftListItems").replaceWith(<%=newInactiveStudentsHtml%>);
@@ -510,26 +510,26 @@
 		//"Beginning Therapies" button
 		$("#beginningTherapiesButton").click(function() {
 			$(".leftListHeading").text("Beginning Therapies");
-			<%if(loggedInUser.isAdmin()) {%>
+			<%if(loggedInUser.isUserAdmin()) {%>
 				showAddTherapyButton();
 			<%}%>
 	
-			<%Map<Integer, TherapyTemplate> beginningTherapiesMap = dashboard.getBeginningTherapies(allTemplates);
+			<%//TODO Map<Integer, TherapyTemplate> beginningTherapiesMap = dashboard.getBeginningTherapies(allTemplates);
         	Map<String, String> beginningTherapies = new HashMap<String, String>();
- 			for(Integer key : beginningTherapiesMap.keySet()) {
- 				beginningTherapies.put(Integer.toString(beginningTherapiesMap.get(key).getId()), beginningTherapiesMap.get(key).getName());
- 			}
+        	//TODOfor(Integer key : beginningTherapiesMap.keySet()) {
+ 			//TODO	beginningTherapies.put(Integer.toString(beginningTherapiesMap.get(key).getId()), beginningTherapiesMap.get(key).getName());
+ 			//TODO}
         		
         		
-        		String newBeginningTherapyHtml = dashboard.updateLeftLinks(beginningTherapies, "therapies", loggedInUser.isAdmin());%>
+        		String newBeginningTherapyHtml = dashboard.updateLeftLinks(beginningTherapies, "therapies", loggedInUser.isUserAdmin());%>
 					$("#leftListItems").replaceWith(<%=newBeginningTherapyHtml%>);
-				<%if(loggedInUser.isAdmin()) {%>
+				<%if(loggedInUser.isUserAdmin()) {%>
 					setAddTherapyFunctionToButton();
 				<%}%>
 			
 				setFunctionToLeftLinks();
 				
-				<%if(loggedInUser.isAdmin()) {%>
+				<%if(loggedInUser.isUserAdmin()) {%>
 					setEditTemplateFunctionality();
 				<%}
 
@@ -541,25 +541,25 @@
 		//"Advanced Therapies" button
 		$("#advancedTherapiesButton").click(function() {
 			$(".leftListHeading").text("Advanced Therapies");
-			<%if(loggedInUser.isAdmin()) {%>
+			<%if(loggedInUser.isUserAdmin()) {%>
 				showAddTherapyButton();
 			<%}%>
 	
-			<%Map<Integer, TherapyTemplate> advancedTherapiesMap = dashboard.getAdvancedTherapies(allTemplates);
+			<%//TODO Map<Integer, TherapyTemplate> advancedTherapiesMap = dashboard.getAdvancedTherapies(allTemplates);
         	Map<String, String> advancedTherapies = new HashMap<String, String>();
- 			for(Integer key : advancedTherapiesMap.keySet()) {
- 				advancedTherapies.put(Integer.toString(advancedTherapiesMap.get(key).getId()), advancedTherapiesMap.get(key).getName());
- 			}
-        	String newAdvancedTherapiesHtml = dashboard.updateLeftLinks(advancedTherapies, "therapies", loggedInUser.isAdmin());%>
+        	//TODOfor(Integer key : advancedTherapiesMap.keySet()) {
+ 			//TODO	advancedTherapies.put(Integer.toString(advancedTherapiesMap.get(key).getId()), advancedTherapiesMap.get(key).getName());
+ 			//TODO}
+        	String newAdvancedTherapiesHtml = dashboard.updateLeftLinks(advancedTherapies, "therapies", loggedInUser.isUserAdmin());%>
 			$("#leftListItems").replaceWith(<%=newAdvancedTherapiesHtml%>);
 			
-			<%if(loggedInUser.isAdmin()) {%>
+			<%if(loggedInUser.isUserAdmin()) {%>
 				setAddTherapyFunctionToButton();
 			<%}%>	
 			
 			setFunctionToLeftLinks();
 			
-			<%if(loggedInUser.isAdmin()) {%>
+			<%if(loggedInUser.isUserAdmin()) {%>
 				setEditTemplateFunctionality();
 			<%}
 			else {%>
@@ -570,20 +570,20 @@
 		//"Therapy Drafts" button
 		$("#therapyDraftsButton").click(function() {
 			$(".leftListHeading").text("Therapy Drafts");
-			<%if(loggedInUser.isAdmin()) {%>
+			<%if(loggedInUser.isUserAdmin()) {%>
 				showAddTherapyButton();
 			<%}%>
 	
-			<%Map<Integer, TherapyTemplate> draftTherapiesMap = dashboard.getTherapyDrafts(allTemplates);
+			<%//TODO Map<Integer, TherapyTemplate> draftTherapiesMap = dashboard.getTherapyDrafts(allTemplates);
         	Map<String, String> draftTherapies = new HashMap<String, String>();
- 			for(Integer key : draftTherapiesMap.keySet()) {
- 				draftTherapies.put(Integer.toString(draftTherapiesMap.get(key).getId()), draftTherapiesMap.get(key).getName());
- 			}
+        	//TODO for(Integer key : draftTherapiesMap.keySet()) {
+ 			//TODO 	draftTherapies.put(Integer.toString(draftTherapiesMap.get(key).getId()), draftTherapiesMap.get(key).getName());
+ 			//TODO }
         			
-        	String newTherapyDraftsHtml = dashboard.updateLeftLinks(draftTherapies, "therapies", loggedInUser.isAdmin());%>
+        	String newTherapyDraftsHtml = dashboard.updateLeftLinks(draftTherapies, "therapies", loggedInUser.isUserAdmin());%>
 			$("#leftListItems").replaceWith(<%=newTherapyDraftsHtml%>);
 			
-			<%if(loggedInUser.isAdmin()) {%>
+			<%if(loggedInUser.isUserAdmin()) {%>
 				setAddTherapyFunctionToButton();
 			<%}%>
 			setFunctionToLeftLinks();
@@ -597,7 +597,7 @@
 			<%Map<String, User> allAdmins = dashboard.getAdmins(allUsers);
         	Map<String, String> admins = new HashMap<String, String>();
         	for(String key : allAdmins.keySet()) {
-        		admins.put(allAdmins.get(key).getUserId(), allAdmins.get(key).getLastName() + ", " + allAdmins.get(key).getFirstName());
+        		admins.put(allAdmins.get(key).getUserId(), allAdmins.get(key).getUserLast() + ", " + allAdmins.get(key).getUserFirst());
         	}
         	String newAdminsHtml = dashboard.updateLeftLinks(admins, "users", true);%>
         	

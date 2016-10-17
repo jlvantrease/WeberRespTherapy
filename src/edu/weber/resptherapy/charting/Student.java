@@ -1,5 +1,5 @@
 package edu.weber.resptherapy.charting;
-import java.util.ArrayList;
+import edu.weber.resptherapy.charting.model.User;
 
 
 public class Student extends User{

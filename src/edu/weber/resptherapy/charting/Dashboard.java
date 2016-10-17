@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import edu.weber.resptherapy.charting.User;
+
+import edu.weber.resptherapy.charting.model.Formtemplate;
+import edu.weber.resptherapy.charting.model.User;
  
 public class Dashboard {
 
@@ -63,36 +65,36 @@ public class Dashboard {
 		for(String key : allUsers.keySet()) {
 			
 			//Skip inactive users
-			if(!allUsers.get(key).isActive()) {
-				continue;
-			}
+//TODO			if(!allUsers.get(key).isActive()) {
+//				continue;
+//			}
 
 			//Skip admins
-			if(allUsers.get(key).isAdmin()) {
-				continue;
-			}
+// TODO			if(allUsers.get(key).isAdmin()) {
+//				continue;
+//			}
 			
 			//If the user doesn't have a year value, skip them
-			if(allUsers.get(key).getYear() == null || allUsers.get(key).getYear().toString().length() < 1) {
-				continue;
-			}
+//	TODO		if(allUsers.get(key).getYear() == null || allUsers.get(key).getYear().toString().length() < 1) {
+//				continue;
+//			}
 			
-			String userYear = allUsers.get(key).getYear().toString();
-			userYear = userYear.substring(0, 4);
+//TODO			String userYear = allUsers.get(key).getYear().toString();
+			//TODO			userYear = userYear.substring(0, 4);
 			
 			//If the user's year is the current year and it is after June then they are a current first year
-			if(getCurrentYear().equals(userYear)) {
-				if(Integer.parseInt(getCurrentMonth()) >= 5 ) {
+			//TODO			if(getCurrentYear().equals(userYear)) {
+			//TODO if(Integer.parseInt(getCurrentMonth()) >= 5 ) {
 					currentFirstYears.put(key, allUsers.get(key));
-				}
-			}
+					//TODO}
+		//TODO			}
 			
 			//If the user's year is last year and it is before June then they are a current first year
-			else if(getLastYear().equals(userYear)) {
-				if(Integer.parseInt(getCurrentMonth()) < 5 ) {
-					currentFirstYears.put(key, allUsers.get(key));
-				}
-			}
+//TODO			else if(getLastYear().equals(userYear)) {
+//				if(Integer.parseInt(getCurrentMonth()) < 5 ) {
+//					currentFirstYears.put(key, allUsers.get(key));
+//				}
+//			}
 		}
 		
 		return currentFirstYears;
@@ -105,36 +107,37 @@ public class Dashboard {
 		for(String key : allUsers.keySet()) {
 			
 			//Skip inactive users
-			if(!allUsers.get(key).isActive()) {
-				continue;
-			}
+//	TODO		if(!allUsers.get(key).isActive()) {
+//				continue;
+//			}
 			
 			//Skip admins
-			if(allUsers.get(key).isAdmin()) {
+			//if(allUsers.get(key).isAdmin()) {
+			if(allUsers.get(key).isUserAdmin()) {
 				continue;
 			}
 			
 			//If the user doesn't have a year value, skip them
-			if(allUsers.get(key).getYear() == null || allUsers.get(key).getYear().toString().length() < 1) {
-				continue;
-			}
+//TODO			if(allUsers.get(key).getYear() == null || allUsers.get(key).getYear().toString().length() < 1) {
+//				continue;
+//			}
 			
-			String userYear = allUsers.get(key).getYear().toString();
-			userYear = userYear.substring(0, 4);
+//TODO			String userYear = allUsers.get(key).getYear().toString();
+//			userYear = userYear.substring(0, 4);
 			
 			//If the user's year is last year and it is after June then they are a current second year
-			if(getLastYear().equals(userYear)) {
-				if(Integer.parseInt(getCurrentMonth()) >= 5 ) {
-					currentSecondYears.put(key, allUsers.get(key));
-				}
-			}
-			
-			//If the user's year is two years ago and it is before June then they are a current second year
-			else if(getTwoYearsAgo().equals(userYear)) {
-				if(Integer.parseInt(getCurrentMonth()) < 5 ) {
-					currentSecondYears.put(key, allUsers.get(key));
-				}
-			}
+//TODO			if(getLastYear().equals(userYear)) {
+//				if(Integer.parseInt(getCurrentMonth()) >= 5 ) {
+//					currentSecondYears.put(key, allUsers.get(key));
+//				}
+//			}
+//			
+//			//If the user's year is two years ago and it is before June then they are a current second year
+//			else if(getTwoYearsAgo().equals(userYear)) {
+//				if(Integer.parseInt(getCurrentMonth()) < 5 ) {
+//					currentSecondYears.put(key, allUsers.get(key));
+//				}
+//			}
 		}
 		
 		return currentSecondYears;
@@ -146,12 +149,13 @@ public class Dashboard {
 		for(String key : allUsers.keySet()) {
 			
 			//Skip inactive users
-			if(!allUsers.get(key).isActive()) {
-				continue;
-			}
+//TODO			if(!allUsers.get(key).isActive()) {
+//				continue;
+//			}
 			
 			//Only get admin users
-			if(allUsers.get(key).isAdmin()) {
+//			if(allUsers.get(key).isAdmin()) {
+			if(allUsers.get(key).isUserAdmin()) {
 				admins.put(key, allUsers.get(key));
 			}
 		}
@@ -165,9 +169,9 @@ public class Dashboard {
 		for(String key : allUsers.keySet()) {
 			
 			//Addinactive users
-			if(!allUsers.get(key).isActive()) {
-				inactiveUsers.put(key, allUsers.get(key));
-			}
+//TODO			if(!allUsers.get(key).isActive()) {
+//				inactiveUsers.put(key, allUsers.get(key));
+//			}
 		}
 		
 		return inactiveUsers;
@@ -197,40 +201,40 @@ public class Dashboard {
 		return currentMonth + "";
 	}
 	
-	public Map<Integer, TherapyTemplate> getBeginningTherapies(Map<Integer, TherapyTemplate> allTemplates) {
-		Map<Integer, TherapyTemplate> beginningTherapies = new HashMap<Integer, TherapyTemplate>();
+	public Map<Integer, Formtemplate> getBeginningTherapies(Map<Integer, Formtemplate> allTemplates) {
+		Map<Integer, Formtemplate> beginningTherapies = new HashMap<Integer, Formtemplate>();
 		
 		for(Integer key : allTemplates.keySet())
 		{
-			if("beginner".equals(allTemplates.get(key).getType()))
+			if("beginner".equals(allTemplates.get(key).getFormTemplateType()))
 			{
-				if(allTemplates.get(key).isActive() == true)
+				if(allTemplates.get(key).getFormTemplateActive() == true)
 				beginningTherapies.put(key, allTemplates.get(key));
 			}
 		}
 		return beginningTherapies;
 	}
 	
-	public Map<Integer, TherapyTemplate> getAdvancedTherapies(Map<Integer, TherapyTemplate> allTemplates) {
-		Map<Integer, TherapyTemplate> advancedTherapies = new HashMap<Integer, TherapyTemplate>();
+	public Map<Integer, Formtemplate> getAdvancedTherapies(Map<Integer, Formtemplate> allTemplates) {
+		Map<Integer, Formtemplate> advancedTherapies = new HashMap<Integer, Formtemplate>();
 		
 		for(Integer key : allTemplates.keySet())
 		{
-			if("advanced".equals(allTemplates.get(key).getType()))
+			if("advanced".equals(allTemplates.get(key).getFormTemplateType()))
 			{
-				if(allTemplates.get(key).isActive() == true)
+				if(allTemplates.get(key).getFormTemplateActive() == true)
 				advancedTherapies.put(key, allTemplates.get(key));
 			}
 		}
 		return advancedTherapies;
 	}
 	
-	public Map<Integer, TherapyTemplate> getTherapyDrafts(Map<Integer, TherapyTemplate> allTemplates) {
-		Map<Integer, TherapyTemplate> therapyDrafts = new HashMap<Integer, TherapyTemplate>();
+	public Map<Integer, Formtemplate> getTherapyDrafts(Map<Integer, Formtemplate> allTemplates) {
+		Map<Integer, Formtemplate> therapyDrafts = new HashMap<Integer, Formtemplate>();
 		
 		for(Integer key : allTemplates.keySet())
 		{
-			if("draft".equals(allTemplates.get(key).getType()))
+			if("draft".equals(allTemplates.get(key).getFormTemplateType()))
 			{
 				therapyDrafts.put(key, allTemplates.get(key));
 			}

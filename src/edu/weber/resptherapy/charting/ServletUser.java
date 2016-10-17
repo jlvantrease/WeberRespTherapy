@@ -7,7 +7,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
@@ -18,7 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.mysql.jdbc.log.Log;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import edu.weber.resptherapy.charting.model.User;
 
 /**
  * Servlet implementation class ServletUser
@@ -53,8 +56,6 @@ public class ServletUser extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 		String type = request.getParameter("type");
 		
 		HttpSession session = request.getSession();
@@ -67,6 +68,20 @@ public class ServletUser extends HttpServlet {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			
+			// statrt of example code
+			//show different forms of Hibernate select queries
+			DatabaseConnector.hibernateExample1();
+			DatabaseConnector.hibernateExample2();
+			DatabaseConnector.hibernateExample3();
+			DatabaseConnector.hibernateExample4();
+			User eu = DatabaseConnector.hibernateInsertExample();
+			eu.setUserFirst("Hannibal");
+			eu = DatabaseConnector.hibernateUpdateExample(eu);
+			DatabaseConnector.hibernateDeleteExample(eu);
+			
+			/// end of example code
+			
+			
 			User theUser = login(username, password);
 			
 			session.setAttribute("user", theUser);
@@ -77,28 +92,24 @@ public class ServletUser extends HttpServlet {
 				System.out.println("Login Successful!");
 				
 				session.setAttribute("failed", "no");
-				
-				
-				if (theUser.isAdmin()) {
-					
-					//TODO call getAllUsers()
+				if (theUser.isUserAdmin()) {
 					session.setAttribute("allUsers", getAllUsers());
 				}
 				else{
-					
 					session.setAttribute("allForms", new ServletForms().getAllForms(theUser.getUserId()));
 				}
 				
-				session.setAttribute("allTemplates", new ServletTherapy().getAllTemplates());
+				//TODO session.setAttribute("allTemplates", new ServletTherapy().getAllTemplates());
 				
 				
 				//pass all information forward to the dashboard.jsp
-				response.sendRedirect("http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+				//TODO can't hard code local host - make into a property
+				response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 				return;
 			}
 			//if login is UNsuccessful
 			else{
-
+				// TODO convert System.outs to logs
 				System.out.println("Login Failed!");
 				
 				//send a "failed" message to the login page so the web code people know how to handle it
@@ -125,7 +136,7 @@ public class ServletUser extends HttpServlet {
 		}else if(type.equals("getUserToEdit")){
 			
 			session.setAttribute("userToBeEdited", userToBeEdited(request.getParameter("userId")));
-			response.sendRedirect("http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 			return;
 	
 		}else if (type.equals("resetpassword")) {
@@ -140,7 +151,7 @@ public class ServletUser extends HttpServlet {
 			String wNumber = request.getParameter("wNumber").toString();
 			String theNewPassword = request.getParameter("theNewPassword").toString();
 			changePassword(wNumber, theNewPassword);
-			response.sendRedirect("http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 			return;
 			
 		}else if (type.equals("createUser")) {
@@ -211,7 +222,7 @@ public class ServletUser extends HttpServlet {
 			
 			session.setAttribute("updatedUser", updateUser(wNumber, firstName, lastName, email, userYear, needsResetPassword, isActive, isAdmin));
 			
-			response.sendRedirect("http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 			return;
 		}
 		
@@ -222,63 +233,17 @@ public class ServletUser extends HttpServlet {
 	/**
 	 * login function
 	 */
-	private User login(String username, String password){
-		
-//		boolean loginSuccessful = false;
-		
-		User theLoggedInUser = null;
-		
-		//query the database to compare username and password
-		DatabaseConnector connector = new DatabaseConnector();
-		try {
-			Connection conn = connector.connectDatabase();
-			
+	private edu.weber.resptherapy.charting.model.User login(String username, String password){
+			edu.weber.resptherapy.charting.model.User theLoggedInUser = null;
 			DatabaseCalls calls = new DatabaseCalls();
-			
-			theLoggedInUser = calls.login(conn, username, password);
-			
-			//if we successfully logged in
-//			if (theLoggedInUser != null) {
-//				
-//				loginSuccessful = true;
-//				
-//				//add the user to the session
-//				session.setAttribute("user", theLoggedInUser);
-//				
-//				//set the session timeout time (in seconds)
-//				session.setMaxInactiveInterval(7200);
-//				
-//			}
-			
-			conn.close();
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
-		return theLoggedInUser;
+			return calls.login(username, password);
 	}
 	
     //___________________________________________________________________________________________________________________
 	
-	public Map<String, User> getAllUsers(){
-		
-		//query the database to get a list of ALL users (this includes both admin and students)
-		DatabaseConnector connector = new DatabaseConnector();
-		try {
-			Connection conn = connector.connectDatabase();
-			
+	public Map<String, edu.weber.resptherapy.charting.model.User> getAllUsers(){
 			DatabaseCalls calls = new DatabaseCalls();
-						
-			return calls.getAllUsers(conn);
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
-		return null;
+			return calls.getAllUsers();
 	}
 	
 	//___________________________________________________________________________________________________________________
@@ -304,13 +269,13 @@ public class ServletUser extends HttpServlet {
 	//___________________________________________________________________________________________________________________
 	public User userToBeEdited(String wNumber) {
 		
-		DatabaseConnector connector = new DatabaseConnector();
+//		DatabaseConnector connector = new DatabaseConnector();
 		try {
-			Connection conn = connector.connectDatabase();
+//			Connection conn = connector.connectDatabase();
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.userToBeEdited(conn, wNumber);
+			return calls.userToBeEdited( wNumber);
 			
 			
 		} catch (Exception e) {

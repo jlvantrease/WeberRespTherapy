@@ -2,7 +2,6 @@ package edu.weber.resptherapy.charting;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.Connector;
+import edu.weber.resptherapy.charting.model.Formtemplate;
 
 /**
  * Servlet implementation class ServletTherapy
@@ -142,17 +141,17 @@ public class ServletTherapy extends HttpServlet {
     //___________________________________________________________________________________________________________________
 
 	//Map<Integer, TherapyTemplate> getAllTemplates()
-	public Map<Integer, TherapyTemplate> getAllTemplates(){
+	public Map<Integer, Formtemplate> getAllTemplates(){
 		
-		DatabaseConnector connector = new DatabaseConnector();
+//		DatabaseConnector connector = new DatabaseConnector();
 		
 		try {
 		
-			Connection conn = connector.connectDatabase();
+//			Connection conn = connector.connectDatabase();
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.getAllTemplates(conn);
+			return calls.getAllTemplates();
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -164,18 +163,18 @@ public class ServletTherapy extends HttpServlet {
     //___________________________________________________________________________________________________________________
 
 	//boolean updateTemplate()
-	public TherapyTemplate getTemplateToFillOut(String templateID){
+	public Formtemplate getTemplateToFillOut(String templateID){
 		
 		
-		DatabaseConnector connector = new DatabaseConnector();
+//		DatabaseConnector connector = new DatabaseConnector();
 		
 		try {
 		
-			Connection conn = connector.connectDatabase();
+//			Connection conn = connector.connectDatabase();
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.getTemplateToFillOut(conn, templateID);
+			return calls.getTemplateToFillOut( templateID);
 			
 		}catch(Exception e){
 			e.printStackTrace();

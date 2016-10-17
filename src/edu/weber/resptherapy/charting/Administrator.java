@@ -1,6 +1,5 @@
 package edu.weber.resptherapy.charting;
-import java.util.ArrayList;
-import java.util.HashMap;
+import edu.weber.resptherapy.charting.model.User;
 
 
 public class Administrator extends User {

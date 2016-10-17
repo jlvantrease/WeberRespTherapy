@@ -401,7 +401,7 @@ function resetPasswordFunctionality() {
 					success: function data() {
 						alert("Password successfully reset!");
 						showMainDashboard();
-						$(location).attr('href',"http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+						$(location).attr('href',"http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 					}	
 				});
 			}
@@ -435,7 +435,7 @@ function addCreateUserFunctionality() {
 				data: {firstName: $("#firstNameInput").val(), lastName: $("#lastNameInput").val(), wNumber: $("#wNumberInput").val(), email: $("#emailInput").val(), userYear: year, isAdmin: isAdminVariable,  type: 'createUser'},
 				success: function data() {
 					alert("User successfully added!");
-					$(location).attr('href',"http://localhost/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+					$(location).attr('href',"http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 				}	
 			});
 		}

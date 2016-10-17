@@ -2,13 +2,15 @@ package edu.weber.resptherapy.charting;
 
 import java.util.ArrayList;
 
+import edu.weber.resptherapy.charting.model.Formtemplate;
+
 public class Assignment {
 
 	//****************************************************************//
 	// DATA MEMEBERS
 	//****************************************************************//
 
-	private ArrayList<TherapyTemplate> _listOfTherapies = new ArrayList<TherapyTemplate>();
+	private ArrayList<Formtemplate> _listOfTherapies = new ArrayList<Formtemplate>();
 
 	//****************************************************************//
 	// CONSTRUCTORS
@@ -19,7 +21,7 @@ public class Assignment {
 	// GETTERS AND SETTERS
 	//****************************************************************//
 	
-	public ArrayList<TherapyTemplate> getListOfTherapies(){
+	public ArrayList<Formtemplate> getListOfTherapies(){
 		
 		return _listOfTherapies;
 	}
@@ -28,7 +30,7 @@ public class Assignment {
 	// METHODS
 	//****************************************************************//
 
-	public void addNewTherapy(TherapyTemplate therapy){
+	public void addNewTherapy(Formtemplate therapy){
 		
 		this._listOfTherapies.add(therapy);
 	}
