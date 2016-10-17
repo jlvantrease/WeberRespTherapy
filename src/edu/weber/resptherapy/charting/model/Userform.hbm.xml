@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 12:14:39 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="edu.weber.resptherapy.charting.model.Userform" table="userform" catalog="therapy" optimistic-lock="version">
+        <id name="userFormId" type="java.lang.Integer">
+            <column name="UserFormID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="user" class="edu.weber.resptherapy.charting.model.User" fetch="select">
+            <column name="UserID" length="10" not-null="true" />
+        </many-to-one>
+        <property name="formTemplateHtml" type="string">
+            <column name="FormTemplateHTML" />
+        </property>
+        <property name="userFormName" type="string">
+            <column name="UserFormName" length="45" not-null="true" />
+        </property>
+        <property name="userFormLastEdit" type="timestamp">
+            <column name="UserFormLastEdit" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

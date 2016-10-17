@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 12:14:39 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="edu.weber.resptherapy.charting.model.User" table="user" catalog="therapy" optimistic-lock="version">
+        <id name="userId" type="string">
+            <column name="UserID" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="userFirst" type="string">
+            <column name="UserFirst" length="45" not-null="true" />
+        </property>
+        <property name="userLast" type="string">
+            <column name="UserLast" length="45" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="45" not-null="true" />
+        </property>
+        <property name="userAdmin" type="boolean">
+            <column name="UserAdmin" not-null="true" />
+        </property>
+        <property name="userPassReset" type="boolean">
+            <column name="UserPassReset" not-null="true" />
+        </property>
+        <property name="userActive" type="boolean">
+            <column name="UserActive" not-null="true" />
+        </property>
+        <property name="userEmail" type="string">
+            <column name="UserEmail" length="45" />
+        </property>
+        <property name="userYear" type="date">
+            <column name="UserYear" length="10" not-null="true" />
+        </property>
+        <!-- set name="userforms" table="userform" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="UserID" length="10" not-null="true" />
+            </key>
+            <one-to-many class="edu.weber.resptherapy.charting.model.Userform" />
+        </set -->
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="true" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/out/test/WeberRespiratoryTherapy"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="core-renderer-minimal.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/core-renderer-minimal.jar!/"/>
+	</lib>
+	<lib name="core-renderer.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/core-renderer.jar!/"/>
+	</lib>
+	<lib name="iText-2.0.8.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/iText-2.0.8.jar!/"/>
+	</lib>
+	<lib name="mysql-connector-java-5.1.34-bin.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/mysql-connector-java-5.1.34-bin.jar!/"/>
+	</lib>
+	<lib name="xml-apis-xerces-2.9.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/xml-apis-xerces-2.9.1.jar!/"/>
+	</lib>
+	<lib name="dom4j-1.6.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/dom4j-1.6.1.jar!/"/>
+	</lib>
+	<lib name="log4j-1.2.14.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/log4j-1.2.14.jar!/"/>
+	</lib>
+	<lib name="commons-logging-1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/commons-logging-1.1.jar!/"/>
+	</lib>
+	<lib name="commons-collections-3.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/commons-collections-3.2.jar!/"/>
+	</lib>
+	<lib name="cglib-2.1_3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/cglib-2.1_3.jar!/"/>
+	</lib>
+	<lib name="jta-1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jta-1.1.jar!/"/>
+	</lib>
+	<lib name="asm-1.5.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/asm-1.5.3.jar!/"/>
+	</lib>
+	<lib name="antlr-2.7.7.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/antlr-2.7.7.jar!/"/>
+	</lib>
+	<lib name="hibernate-core-4.3.6.Final.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hibernate-core-4.3.6.Final.jar!/"/>
+	</lib>
+</component>
