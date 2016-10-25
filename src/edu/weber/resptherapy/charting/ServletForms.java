@@ -178,7 +178,7 @@ public class ServletForms extends HttpServlet {
 	}
 	
 	//boolean updateForm()
-		public Formtemplate getFormToEdit(String userId, int theFormId){
+		public Userform getFormToEdit(String userId, int theFormId){
 			
 //			DatabaseConnector connector = new DatabaseConnector();
 //			

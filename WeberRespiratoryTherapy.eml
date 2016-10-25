@@ -45,4 +45,7 @@
 	<lib name="hibernate-core-4.3.6.Final.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hibernate-core-4.3.6.Final.jar!/"/>
 	</lib>
+	<levels>
+		<level name="tomcat-dbcp" value="project"/>
+	</levels>
 </component>

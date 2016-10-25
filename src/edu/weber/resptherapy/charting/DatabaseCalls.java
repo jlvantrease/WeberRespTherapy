@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -38,7 +39,7 @@ public class DatabaseCalls {
 				throw new HibernateException("No User found!");
 			}
 			user = results.get(0);
-		} catch (HibernateException e){
+		} catch (Exception e){
 			//log.error(e.getMessage(), e);
 			throw new RuntimeException(e.getMessage());
 		} finally {
@@ -469,8 +470,6 @@ public class DatabaseCalls {
 		try {		
 			Session session = DatabaseConnector.getCurrentSession();
 			Transaction tx = session.beginTransaction();
-			//edu.weber.resptherapy.charting.model.User user = (edu.weber.resptherapy.charting.model.User) session.get(edu.weber.resptherapy.charting.model.User.class, theUserId);
-	
 			Criteria cr_userFormtemplate = session.createCriteria(Formtemplate.class);
 			List<Formtemplate> results = cr_userFormtemplate.list();
 			if (results.size() < 1) {
@@ -585,9 +584,28 @@ public class DatabaseCalls {
 		}
 	
 		
-		public Formtemplate getFormToEdit(String userID, int FormtemplateID){
-			Formtemplate formtemplate = null; // complete with hibernate
+		public Userform getFormToEdit(String userID, int userFormId){
+			Userform formtemplate = null; // complete with hibernate
 
+			try {		
+				Session session = DatabaseConnector.getCurrentSession();
+				Transaction tx = session.beginTransaction();
+				User u =  new User(userID);
+				Criteria cr = session.createCriteria(Userform.class);
+				cr.add(Restrictions.eq("user", u)); //userId
+				cr.add(Restrictions.eq("userFormId", userFormId)); 
+				formtemplate = (Userform) cr.uniqueResult();
+				if (formtemplate == null) {
+					throw new HibernateException("Template not found!");
+				}
+
+			} catch (HibernateException e){
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage());
+			} finally {
+				DatabaseConnector.closeSession();
+			}	
+			
 			return formtemplate;
 			
 			

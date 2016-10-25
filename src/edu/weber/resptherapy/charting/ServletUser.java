@@ -17,10 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import edu.weber.resptherapy.charting.model.User;
 
 /**
@@ -28,7 +24,7 @@ import edu.weber.resptherapy.charting.model.User;
  */
 @WebServlet("/ServletUser")
 public class ServletUser extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
 	   
 	//___________________________________________________________________________________________________________________
@@ -99,7 +95,7 @@ public class ServletUser extends HttpServlet {
 					session.setAttribute("allForms", new ServletForms().getAllForms(theUser.getUserId()));
 				}
 				
-				//TODO session.setAttribute("allTemplates", new ServletTherapy().getAllTemplates());
+				// TODO session.setAttribute("allTemplates", new ServletTherapy().getAllTemplates());
 				
 				
 				//pass all information forward to the dashboard.jsp

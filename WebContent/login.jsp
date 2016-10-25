@@ -64,6 +64,11 @@
     			{
     				//$(location).attr('href',"http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");		
     				window.location.reload();
+    			},
+    			error: function(XMLHttpRequest, textStatus, errorThrown) {
+    	    		
+    	    			alert("Page Error")
+    	    		
     			}
     			
     		});

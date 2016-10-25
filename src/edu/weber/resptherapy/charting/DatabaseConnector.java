@@ -70,8 +70,13 @@ public class DatabaseConnector {
 	}	
 	public static Session getCurrentSession() {
 		Session s = sessionFactory.getCurrentSession();
-		if (!s.isOpen()) {
-			s = sessionFactory.openSession();
+		try {
+			if (!s.isOpen()) {
+				s = sessionFactory.openSession();
+			}
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return s;
 	}
