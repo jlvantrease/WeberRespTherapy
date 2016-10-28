@@ -246,15 +246,13 @@ public class ServletUser extends HttpServlet {
 	
 	public boolean createUser(String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin){
 		
-		DatabaseConnector connector = new DatabaseConnector();
 		try {
-			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.createUser(conn, wNumber, firstName, lastName, email, year, isAdmin);
+			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
+			return calls.createUser(null, wNumber, firstName, lastName, email, year, isAdmin);
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
@@ -283,18 +281,13 @@ public class ServletUser extends HttpServlet {
 	
 	
 	public User updateUser(String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
-		
-		//TODO
-		
-		DatabaseConnector connector = new DatabaseConnector();
 		try {
-			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.updateUser(conn, wNumber, firstName, lastName, email, year, needsResetPassword, isActive, isAdmin);
+			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
+			return calls.updateUser(null, wNumber, firstName, lastName, email, year, needsResetPassword, isActive, isAdmin);
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
@@ -309,18 +302,15 @@ public class ServletUser extends HttpServlet {
 		//if password resets successfully, return true.
 		
 		//Otherwise, return false.
-		
-		DatabaseConnector connector = new DatabaseConnector();
 		try {
-			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 			
 			String theDefaultPassword = firstName.charAt(0) + lastName.charAt(0) + wNumber.substring(5);
 			
-			return calls.changePassword(conn, wNumber, theDefaultPassword);
+			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
+			return calls.changePassword(null, wNumber, theDefaultPassword);
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
@@ -337,15 +327,13 @@ public class ServletUser extends HttpServlet {
 		
 		//Otherwise, return false.
 		
-		DatabaseConnector connector = new DatabaseConnector();
 		try {
-			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 						
-			return calls.changePassword(conn, wNumber, theNewPassword);
+			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
+			return calls.changePassword(null, wNumber, theNewPassword);
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}

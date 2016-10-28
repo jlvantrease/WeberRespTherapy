@@ -1,13 +1,10 @@
 package edu.weber.resptherapy.charting;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
 
@@ -24,7 +21,6 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.pdf.PdfWriter;
 
-import edu.weber.resptherapy.charting.model.Formtemplate;
 import edu.weber.resptherapy.charting.model.Userform;
 
 /**
@@ -201,16 +197,13 @@ public class ServletForms extends HttpServlet {
 		
 		try {
 			
-			DatabaseConnector connector = new DatabaseConnector();
-			
-			Connection conn = connector.connectDatabase();
+			DatabaseConnector connector = new DatabaseConnector();  // This will setup hibernate, but not really7 needed
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-//			userID = "w11112222";
-//			formID = 1;
-			
-			String html = calls.generatePDF(conn, userID, formID);
+//example:			userID = "w11112222"; formID = 1;
+			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
+			String html = calls.generatePDF(null, userID, formID); 
 			
 //			FileInputStream in = new FileInputStream(html);
 //			byte[] buffer = new byte[4096];
@@ -248,24 +241,11 @@ public class ServletForms extends HttpServlet {
 			
 //			return doc;
 			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			System.out.println("PDF generation failed!");
-		} catch (DocumentException e) {
+		} catch (DocumentException|IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("PDF generation failed!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("PDF generation failed!");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("PDF generation failed!");
-		}
+		} 
 		
 	}
 	

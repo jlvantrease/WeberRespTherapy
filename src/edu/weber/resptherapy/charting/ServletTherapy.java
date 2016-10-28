@@ -1,7 +1,6 @@
 package edu.weber.resptherapy.charting;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -93,16 +92,11 @@ public class ServletTherapy extends HttpServlet {
 	
 	//boolean createTemplate()
 	public boolean createTemplate(String templateName, String templateHTML, String templateType){
-		
-		DatabaseConnector connector = new DatabaseConnector();
-		
 		try {
-			
-			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.createTemplate(conn, templateName, templateHTML, templateType);
+			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
+			return calls.createTemplate(null, templateName, templateHTML, templateType);
 		
 		}catch(Exception e){
 			e.printStackTrace();
@@ -118,15 +112,13 @@ public class ServletTherapy extends HttpServlet {
 	public boolean updateTemplate(int templateID, String templateName){
 		
 		
-		DatabaseConnector connector = new DatabaseConnector();
+//		DatabaseConnector connector = new DatabaseConnector();
 		
 		try {
-		
-			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.updateTemplate(conn, templateID, templateName);
+			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
+			return calls.updateTemplate(null, templateID, templateName);
 			
 		}catch(Exception e){
 			e.printStackTrace();

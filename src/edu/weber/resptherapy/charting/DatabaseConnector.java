@@ -1,8 +1,8 @@
 package edu.weber.resptherapy.charting;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+//import java.sql.Connection;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -32,12 +32,7 @@ public class DatabaseConnector {
 	private static Logger log = Logger.getLogger(DatabaseConnector.class);
 	private static SessionFactory sessionFactory; 
 	
-
-	
-	private Connection _dbConnection;
-	private BasicDataSource ds;
-	
-	// new hibernate methods
+	// new hibernate DATABASE methods
 	static {
 	      try {
 				sessionFactory = new Configuration().configure("/hibernate.cfg.therapy.xml").buildSessionFactory();
@@ -257,98 +252,28 @@ public class DatabaseConnector {
 	}
 	
 	
-	//open the database and connect
-	public Connection connectDatabase() throws SQLException{
-		
+	//open the database and connect  REMOVED, NOT NEEDED FOR HIBERNATE
+//	public void connectDatabase() {
+//        int count = 1;
+// 		//ip address
+////		String host = "127.2.85.130"; //PRODUCTION
+////		String host = "127.0.0.1"; //TEST
+//		//port
+////		String port = "3306";
+//		
+//		String appName = "weberstate";
+//		
+//		//the database JDBC URL
+////		String url = "jdbc:mysql://" + host + ":" + port + "/" + appName;
+//		
+//		//the database username
+//		String username = "adminFxASVVU"; //adminFxASVVU
+//		
+//		//the database password
+//		String password = "Q2lcMxlMgS_e"; //Q2lcMxlMgS_e
+//		
+//		return null; 
+//	}
+	
 
-		
-		
-		
-		
-		try {
-			
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-		Context ctx;
-		try {
-			ctx = new InitialContext();
-			ds = (BasicDataSource)ctx.lookup("java:comp/env/jdbc/weberRespDB");	
-		} catch (NamingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		Connection _dbConnection = ds.getConnection();
-		
-		java.sql.Statement statement = _dbConnection.createStatement();
-        String sql = "select * from therapy.user";
-        ResultSet rs = statement.executeQuery(sql);
-        while (rs.next()) {
-        	System.out.println("ID: "+rs.getString("UserID")+" name: "+rs.getString("UserFirst"));
-        }
-
-        int count = 1;
-        /////////////////////////////////////////////////////////
-
- 
-		
-		//ip address
-//		String host = "127.2.85.130"; //PRODUCTION
-		String host = "127.0.0.1"; //TEST
-		//port
-		String port = "3306";
-		
-		String appName = "weberstate";
-		
-		//the database JDBC URL
-		String url = "jdbc:mysql://" + host + ":" + port + "/" + appName;
-		
-		//the database username
-		String username = "adminFxASVVU"; //adminFxASVVU
-		
-		//the database password
-		String password = "Q2lcMxlMgS_e"; //Q2lcMxlMgS_e
-		
-//		String completeUrl = "";
-		
-		//get connection by passing in the URL, username, and password for the database
-//		try {
-//			_dbConnection = DriverManager.getConnection(url, username, password);
-//		} catch (Exception e) {
-//			
-//			e.printStackTrace();
-//		}
-		
-		//return the connection to the database
-		return _dbConnection;
-	}
-	
-	//______________________________________________________________________________________
-	
-	//get the current database connection, which may or may not have an active connection
-	public Connection getConnection(){
-		
-		return _dbConnection;
-	}
-	
-	//______________________________________________________________________________________
-	
-	public void closeConnection(){
-		
-		try {
-			
-			_dbConnection.close();
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-	}
-
-	//______________________________________________________________________________________
-	
 }
