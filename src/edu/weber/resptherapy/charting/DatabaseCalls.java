@@ -75,11 +75,28 @@ public class DatabaseCalls {
 	}
 	
 
-	
-	public User userToBeEdited( String wNumber) {
-		User u = new User(); // TODO hibernate conversion
-		return u;
-		
+	// NEW
+	public User userToBeEdited(String wNumber) {
+		edu.weber.resptherapy.charting.model.User user = null; // TODO hibernate conversion
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Criteria cr = session.createCriteria(edu.weber.resptherapy.charting.model.User.class);
+			cr.add(Restrictions.eq("userId", wNumber)); //wNumber
+			User result = (User) cr.uniqueResult();
+			if (result == null) {
+				throw new HibernateException("No User found!");
+			}
+			user = result;
+		} catch (HibernateException e){
+			//log.error(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
+		}
+		return user;
+	}
+
+	// OLD
 		//returns a user based on it's wNumber (UserID)
 //		PreparedStatement statement = null;
 //		
@@ -126,11 +143,39 @@ public class DatabaseCalls {
 //		
 //		return userToBeEdited;
 
+	//___________________________________________________________________________________________________________________
+
+	// NEW
+	public boolean createUser(String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin) {
+		User user = new User();
+		user.setUserId(wNumber);
+		user.setUserFirst(firstName);
+		user.setUserLast(lastName);
+		user.setPassword(firstName.substring(0,1).toLowerCase() +
+				lastName.substring(0,1).toLowerCase() +
+				wNumber.substring(wNumber.length() - 4));
+		user.setUserAdmin(isAdmin);
+		user.setUserPassReset(true);
+		user.setUserActive(true);
+		user.setUserEmail(email);
+		user.setUserYear(year);
+
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
+			session.save(user);
+			tx.commit();
+		} catch (HibernateException e){
+			//log.error(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
+		}
+		return true;
 	}
 
-	//___________________________________________________________________________________________________________________
-	
-	public boolean createUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin) {
+	// OLD
+	/*public boolean createUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin) {
 
 		//create default password for new user that they are required to go in and change
 		String userPassword = firstName.substring(0,1).toLowerCase() + lastName.substring(0,1).toLowerCase() + wNumber.substring(wNumber.length() - 4);
@@ -175,10 +220,10 @@ public class DatabaseCalls {
 		
 		System.out.println("Successfully created new user!");
 		return true;
-	}
-	
+	}*/
+
 	//___________________________________________________________________________________________________________________
-	
+
 	public User updateUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
 		//todo add select statement to get the changes to the user.
 		//if admin simply rerun getAllUsers
