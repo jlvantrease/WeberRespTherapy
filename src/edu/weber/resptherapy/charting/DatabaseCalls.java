@@ -72,9 +72,9 @@ public class DatabaseCalls {
 		}	
 		return mapOfAllUsers;		
 	}
-	
 
-	// NEW
+	//___________________________________________________________________________________________________________________
+
 	public User userToBeEdited(String wNumber) {
 		edu.weber.resptherapy.charting.model.User user = null; // TODO hibernate conversion
 		try {
@@ -95,56 +95,8 @@ public class DatabaseCalls {
 		return user;
 	}
 
-	// OLD
-		//returns a user based on it's wNumber (UserID)
-//		PreparedStatement statement = null;
-//		
-//		String query = "SELECT UserID, UserFirst, UserLast, UserAdmin, UserPassreset, UserEmail, UserActive, UserYear FROM USER WHERE UserID = ?";
-//		
-//		User userToBeEdited = null;
-//		
-//		try {		
-//			
-//			statement = conn.prepareStatement(query);
-//			
-//			//put the user's W Number into the query
-//			statement.setString(1, wNumber);
-//			
-//			//execute the query which will return the updated User
-//			ResultSet result = statement.executeQuery();
-//			
-//			while(result.next()){
-//				
-//				String updatedUserId = result.getString("UserID");
-//				String updatedFirstName = result.getString("UserFirst");
-//				String updatedLastName = result.getString("UserLast");
-//				String updatedEmail = result.getString("UserEmail");
-//				int updatedIsAdmin = result.getInt("UserAdmin");
-//				Date updatedYear = result.getDate("UserYear");
-//				int updatedIsActive = result.getInt("UserActive");
-//				int updatedNeedsResetPassword = result.getInt("UserPassReset");
-//				
-////TODO - replace with Hibernate				userToBeEdited = 
-////						new User(updatedUserId, updatedFirstName, updatedLastName, updatedEmail, updatedIsAdmin, updatedYear, updatedIsActive, updatedNeedsResetPassword);
-//				
-//			}
-//			
-//			conn.close();
-//			
-//		} catch (Exception e) {
-//			
-//			e.printStackTrace();
-//			
-//			System.out.println("Failed to updated user.");
-//			
-//			return userToBeEdited; //if we get to this point, the updated user should equal null
-//		}
-//		
-//		return userToBeEdited;
-
 	//___________________________________________________________________________________________________________________
 
-	// NEW
 	public boolean createUser(String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin) {
 		User user = new User();
 		user.setUserId(wNumber);
@@ -172,55 +124,7 @@ public class DatabaseCalls {
 		}
 		return true;
 	}
-
-	// OLD
-	/*public boolean createUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin) {
-
-		//create default password for new user that they are required to go in and change
-		String userPassword = firstName.substring(0,1).toLowerCase() + lastName.substring(0,1).toLowerCase() + wNumber.substring(wNumber.length() - 4);
-		
-		int admin = 0;
-		
-		if (isAdmin) {
-			admin = 1;
-		}
-				
-		PreparedStatement statement = null;
-		
-		//wnumber, first, last, pass, isAdmin, passreset, email, isactive, year
-		String query = "CALL sp_AddUser(?,?,?,?,?,?,?,?,?)";
-		
-		try {
-			
-			statement = conn.prepareStatement(query);
-
-			statement.setString(1, wNumber);
-			statement.setString(2, firstName);
-			statement.setString(3, lastName);
-			statement.setString(4, userPassword);
-			statement.setInt(5, admin);
-			statement.setInt(6, 1); //default value is 1
-			statement.setString(7, email);
-			statement.setInt(8, 1); //default value is 1
-			statement.setDate(9, new java.sql.Date(year.getTime()));
-			
-			ResultSet result = statement.executeQuery();
-			
-			conn.close();
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			
-			System.out.println("Failed to create new user");
-			
-			return false;
-		}
-		
-		System.out.println("Successfully created new user!");
-		return true;
-	}*/
-
+	
 	//___________________________________________________________________________________________________________________
 
 	public User updateUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
