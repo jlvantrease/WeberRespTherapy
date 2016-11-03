@@ -1,8 +1,6 @@
 package edu.weber.resptherapy.charting;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -308,7 +306,7 @@ public class ServletUser extends HttpServlet {
 			String theDefaultPassword = firstName.charAt(0) + lastName.charAt(0) + wNumber.substring(5);
 			
 			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
-			return calls.changePassword(null, wNumber, theDefaultPassword);
+			return calls.changePassword(wNumber, theDefaultPassword);
 			
 		} catch (Exception e) {
 			
@@ -331,7 +329,7 @@ public class ServletUser extends HttpServlet {
 			DatabaseCalls calls = new DatabaseCalls();
 						
 			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
-			return calls.changePassword(null, wNumber, theNewPassword);
+			return calls.changePassword(wNumber, theNewPassword);
 			
 		} catch (Exception e) {
 			

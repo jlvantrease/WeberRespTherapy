@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -199,36 +198,28 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 	
-	public boolean changePassword(Connection conn, String wNumber, String theNewPassword){
-		
-		//TODO need stored procedure
-		
-		PreparedStatement statement = null;
-		
-		//the W number and the new password
-		String query = "CALL sp_ChangePassword(?,?)";
-		
-		try {
-			
-			statement = conn.prepareStatement(query);
+	public boolean changePassword(String wNumber, String theNewPassword){
 
-			statement.setString(1, theNewPassword);
-			statement.setString(2, wNumber);
-			
-			statement.executeQuery();
-			
-			conn.close();
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			
-			System.out.println("Failed to change password");
-			
-			return false;
+		edu.weber.resptherapy.charting.model.User user = null;
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
+			Criteria cr = session.createCriteria(edu.weber.resptherapy.charting.model.User.class);
+			cr.add(Restrictions.eq("userId", wNumber));
+			List<edu.weber.resptherapy.charting.model.User> results = cr.list();
+			if (results.size() < 1) {
+				throw new HibernateException("No User found!");
+			}
+			user = results.get(0);
+			user.setPassword(theNewPassword);
+			session.saveOrUpdate(user);
+			tx.commit();
+		} catch (Exception e){
+			//log.error(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
 		}
-		
-		System.out.println("Successfully changed password");
 		return true;
 	}
 	
