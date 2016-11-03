@@ -212,7 +212,8 @@ public class DatabaseCalls {
 			}
 			user = results.get(0);
 			user.setPassword(theNewPassword);
-			session.persist(user);
+			session.saveOrUpdate(user);
+			tx.commit();
 		} catch (Exception e){
 			//log.error(e.getMessage(), e);
 			throw new RuntimeException(e.getMessage());
