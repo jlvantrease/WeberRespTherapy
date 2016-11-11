@@ -67,9 +67,8 @@
     			},
     			error: function(XMLHttpRequest, textStatus, errorThrown) {
     	    		
-    	    			alert("Page Error")
-    	    		
-    			}
+    	    			alert("Login Error. Check database connection.")
+     			}
     			
     		});
     	});

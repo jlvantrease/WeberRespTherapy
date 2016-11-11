@@ -413,7 +413,7 @@ public class DatabaseCalls {
 			Criteria cr_userFormtemplate = session.createCriteria(Formtemplate.class);
 			List<Formtemplate> results = cr_userFormtemplate.list();
 			if (results.size() < 1) {
-				throw new HibernateException("No User found!");
+				throw new HibernateException("No templates found!");
 			}
 			Iterator it = results.iterator();
 			while (it.hasNext()) {
@@ -471,56 +471,26 @@ public class DatabaseCalls {
 	//___________________________________________________________________________________________________________________
 	
 		public Formtemplate getTemplateToFillOut( String therapyId){
-			Formtemplate formtemplate = null; // TODO complete with hibernate
+			Formtemplate formtemplate = null; 
+			try {		
+				Session session = DatabaseConnector.getCurrentSession();
+				Transaction tx = session.beginTransaction();
+				Criteria cr_userFormtemplate = session.createCriteria(Formtemplate.class);
+				cr_userFormtemplate.add(Restrictions.eq("formTemplateId", Integer.valueOf(therapyId) )); //template Id
+				
+				formtemplate = (Formtemplate) cr_userFormtemplate.uniqueResult();
+				if (formtemplate == null) {
+					throw new HibernateException("No template found with id: "+therapyId);
+				}
+
+			} catch (HibernateException e){
+				//log.error(e.getMessage(), e);
+				throw new RuntimeException(e.getMessage());
+			} finally {
+				DatabaseConnector.closeSession();
+			}	
 			return formtemplate;
-			
-			
-//			PreparedStatement statement = null;
-//			
-//			String query = "CALL sp_GetTemplate(?)";
-//			try{	
-//				
-//				statement = conn.prepareStatement(query);
-//				
-//				statement.setInt(1, Integer.parseInt(therapyId));
-				
-//TODO HIBERNATE				ResultSet result = statement.executeQuery();
-				
-//				int templateID = 0;
-//				Blob templateHTMLBlob = null;
-//				String templateHTML = null;
-//				String templateName = null;
-//				String templateType = null;
-//				int activeInt = -1;
-//				int templateVersion = -1;
-//				boolean templateActive = true;
-				
-//				while(result.next()){
-//					
-//					templateID = result.getInt("FormtemplateTemplateID");
-//					templateHTMLBlob = result.getBlob("FormtemplateTemplateHTML");
-//					templateHTML = new String(templateHTMLBlob.getBytes(1, (int)templateHTMLBlob.length()));
-//					templateName = result.getString("FormtemplateTemplateName");
-//					templateType = result.getString("FormtemplateTemplateType");
-//					activeInt = result.getInt("FormtemplateTemplateActive");
-//					templateVersion = result.getInt("FormtemplateTemplateVersionNum");
-//					
-//					if (activeInt == 0) {
-//						templateActive = false;
-//					}
-//				}
-//				
-//				TherapyTemplate tempTemplate = new TherapyTemplate(templateName, templateActive, templateHTML, templateID, templateType, templateVersion);
-//				
-//				conn.close();
-//				
-//				return tempTemplate;
-				
-//			}catch(Exception e){
-//				e.printStackTrace();
-//				return null;
-//			}
-//			return formtemplate;
+
 		}
 	
 		

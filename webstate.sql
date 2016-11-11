@@ -29,6 +29,7 @@ CREATE TABLE FormTemplate (
   FormTemplateType VARCHAR(15),
   FormTemplateActive BIT(1),
   FormTemplateVersionNum INT(11),
+  FormTemplateSegment BIT(1),
   PRIMARY KEY (FormTemplateId)
 );
 grant all on therapy.FormTemplate to adminFxASVVU;
@@ -94,30 +95,30 @@ VALUES
 commit;
 
 INSERT INTO FormTemplate
-(FormTemplateName, FormTemplateHTML, FormTemplateType, FormTemplateActive, FormTemplateVersionNum)
+(FormTemplateName, FormTemplateHTML, FormTemplateType, FormTemplateActive, FormTemplateVersionNum, FormTemplateSegment)
 VALUES
 ('Template1', '<form method="POST" action="" class="form-horizontal">
   <fieldset id="content_form_name">
-    <legend>begin1</legend>
+    <legend>Oxygen Therapy</legend>
   </fieldset>
-  <input type="hidden" id="formType" value="beginner">
+  <input type="hidden" id="formType" value="">
   <div class="form-group">
-    <label class="control-label col-sm-4" for="select_multiple">Select - Multiple</label>
+    <label class="control-label col-sm-4" for="textarea">Comments</label>
     <div class="controls col-sm-8">
-      <select name="" class="form-control" id="select_multiple" multiple="multiple" size="3">
+      <textarea name="oxycomments" class="form-control" id="textarea" placeholder="Enter oxygen therapy notes"></textarea>
+    </div>
+  </div>
+  <div class="form-group" tabindex="-1">
+    <label class="control-label col-sm-4" for="select_basic">Breathing</label>
+    <div class="controls col-sm-8">
+      <select class="form-control" name="oxydrop" id="select_basic">
         <option value="1">Option 1</option>
         <option value="2">Option 2</option>
         <option value="3">Option 3</option>
       </select>
     </div>
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-4" for="textarea">Textarea</label>
-    <div class="controls col-sm-8">
-      <textarea name="" class="form-control" id="textarea" placeholder="placeholder"></textarea>
-    </div>
-  </div>
-</form>', 'beginner',1,1 );
+</form>', 'beginner',1,1, 1);
 INSERT INTO FormTemplate
 (FormTemplateName, FormTemplateHTML, FormTemplateType, FormTemplateActive, FormTemplateVersionNum)
 VALUES

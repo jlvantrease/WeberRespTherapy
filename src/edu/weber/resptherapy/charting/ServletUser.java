@@ -32,7 +32,6 @@ public class ServletUser extends HttpServlet {
      */
     public ServletUser() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     //___________________________________________________________________________________________________________________
@@ -41,7 +40,6 @@ public class ServletUser extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
     //___________________________________________________________________________________________________________________
@@ -93,8 +91,7 @@ public class ServletUser extends HttpServlet {
 					session.setAttribute("allForms", new ServletForms().getAllForms(theUser.getUserId()));
 				}
 				
-				// TODO session.setAttribute("allTemplates", new ServletTherapy().getAllTemplates());
-				
+				session.setAttribute("allTemplates", new ServletTherapy().getAllTemplates());
 				
 				//pass all information forward to the dashboard.jsp
 				//TODO can't hard code local host - make into a property
@@ -247,7 +244,6 @@ public class ServletUser extends HttpServlet {
 		try {
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
 			return calls.createUser(wNumber, firstName, lastName, email, year, isAdmin);
 			
 		} catch (Exception e) {

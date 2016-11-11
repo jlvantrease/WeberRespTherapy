@@ -1,6 +1,7 @@
 package edu.weber.resptherapy.charting;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -11,9 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.weber.resptherapy.charting.model.Formtemplate;
+import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class ServletTherapy
+ * 
+ *  Servlet implementation class ServletTherapy
  */
 @WebServlet("/ServletTherapy")
 public class ServletTherapy extends HttpServlet {
@@ -44,8 +47,6 @@ public class ServletTherapy extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 		String type = request.getParameter("type");
 		
 		HttpSession session = request.getSession();
@@ -70,10 +71,18 @@ public class ServletTherapy extends HttpServlet {
 		else if (type.equals("getTemplateToFillOut")) {
 			
 			String templateId = request.getParameter("templateId");
-			response.sendRedirect("dashboard.jsp");
+			Formtemplate templateText = getTemplateToFillOut(templateId);
+			request.setAttribute("getTemplateToFillOut", templateText);
 			
-			session.setAttribute("getTemplateToFillOut", getTemplateToFillOut(templateId)); 
-		}
+			JSONObject json = new JSONObject();
+			json.put("getTemplateToFillOut", templateText);	
+			response.setContentType("application/json");
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			//response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+			
+			}
 		else if (type.equals("updateTemplate")) {
 			
 			int templateID = Integer.valueOf(request.getParameter("templateID"));
@@ -82,7 +91,7 @@ public class ServletTherapy extends HttpServlet {
 			updateTemplate(templateID, templateName);
 			
 			session.setAttribute("allTemplates", getAllTemplates());
-			response.sendRedirect("dashboard.jsp");
+			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
 		}
 		
 		
@@ -156,14 +165,7 @@ public class ServletTherapy extends HttpServlet {
 
 	//boolean updateTemplate()
 	public Formtemplate getTemplateToFillOut(String templateID){
-		
-		
-//		DatabaseConnector connector = new DatabaseConnector();
-		
 		try {
-		
-//			Connection conn = connector.connectDatabase();
-			
 			DatabaseCalls calls = new DatabaseCalls();
 			
 			return calls.getTemplateToFillOut( templateID);
