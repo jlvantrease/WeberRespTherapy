@@ -638,7 +638,6 @@
 	function showTemplateInFormGenerator(therapyId) {
 		$('#contentHolder').children().hide();
 		var templateHtml;
-		
 		$.ajax({
 			url: "../ServletTherapy",
 			type: "POST",
@@ -652,10 +651,8 @@
 				//window.location.reload();
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
-	    		
-    			alert("getTemplateToFillOut Page Error")
-  				//<  % isEditingTemplate = true; %  >
-				//window.location.reload();
+   			alert("getTemplateToFillOut Page Error")
+ 				//window.location.reload();
 			}	
 		});
 		
