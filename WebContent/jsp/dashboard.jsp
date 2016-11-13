@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.Iterator"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="java.util.HashMap"%>
 <%@ page import="edu.weber.resptherapy.charting.Dashboard"%>
+<%@ page import="edu.weber.resptherapy.charting.model.Formtemplate"%>
 <%@ page import="edu.weber.resptherapy.charting.model.User"%>
 <%@ page import="edu.weber.resptherapy.charting.model.Userform"%>
-<%@ page import="edu.weber.resptherapy.charting.model.Formtemplate"%>
 <%@ page import="java.io.BufferedReader"%>
 <%@ page import="java.io.StringReader"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.Map"%>
 
 <!-- Global Java Variables -->
 <%
@@ -154,20 +153,20 @@
 					<h2 style="text-align: center;">User Information</h2>
 				</div>
 				<div class="formDiv">
-					First: <input id="firstNameInput" type="text" class="userFormInput">
-					Last: <input id="lastNameInput" type="text" class="userFormInput">
+					First: <input id="firstNameInput" type="text" maxlength="45" class="userFormInput">
+					Last: <input id="lastNameInput" type="text" maxlength="45" class="userFormInput">
 				</div>
 				<hr class="formHR">
 				<div class="formDiv">
-					W#:&nbsp;&nbsp;&nbsp;&nbsp;<input id="wNumberInput" type="text"
+					W#:&nbsp;&nbsp;&nbsp;&nbsp;<input id="wNumberInput" type="text" maxlength="10"
 						class="userFormInput">
 				</div>
 				<div class="formDiv">
-					Year:&nbsp;&nbsp;<input type="text" id="yearInput"
+					Year:&nbsp;&nbsp;<input type="text" id="yearInput" maxlength="4"
 						class="userFormInput" id="userFormYear">
 				</div>
 				<div class="formDiv">
-					Email: <input type="text" id="emailInput" class="userFormInput"
+					Email: <input type="text" id="emailInput" maxlength="45" class="userFormInput"
 						id="userFormEmail">
 				</div>
 				<div class="formDiv">
