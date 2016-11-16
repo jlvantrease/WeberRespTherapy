@@ -3,6 +3,7 @@ package edu.weber.resptherapy.charting;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -126,31 +127,9 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 
-	//firstName, lastName, email, needsResetPassword
-	public User updateUser(User user, String firstName, String lastName, String email, boolean needsResetPassword){
-
-		user.setUserFirst(firstName);
-		user.setUserLast(lastName);
-		user.setUserPassReset(needsResetPassword);
-		user.setUserEmail(email);
-
-		try {
-			Session session = DatabaseConnector.getCurrentSession();
-			Transaction tx = session.beginTransaction();
-			session.save(user);
-			tx.commit();
-		} catch (HibernateException e){
-			//log.error(e.getMessage(), e);
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			DatabaseConnector.closeSession();
-		}
-		return user;
-	}
-
-		///END Hibernate
-
-		/*
+	public User updateUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
+		//todo add select statement to get the changes to the user.
+		//if admin simply rerun getAllUsers
 		User theUpdatedUser = null;
 		
 		PreparedStatement statement = null;
@@ -213,9 +192,10 @@ public class DatabaseCalls {
 			
 			return theUpdatedUser; //if we get to this point, the updated user should equal null
 		}
-		
-		return theUpdatedUser;  */
 
+		return theUpdatedUser;
+	}
+	
 	//___________________________________________________________________________________________________________________
 	
 	public boolean changePassword(String wNumber, String theNewPassword){
@@ -245,58 +225,37 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 	
-	//Formtemplate block
+	//UserForm block
 	
-	public boolean updateForm( String theFormtemplateName, String theFormtemplateHtml, int theFormtemplateId, String wNumber){
-			return true;  // TODO Hibernate
-		
-//		//calls sp_UpdateFormtemplate in the database.
-//		//Call getAllFormtemplates after successful return.
-//		//Formtemplate theUpdatedFormtemplate = null;
-//		
-//		PreparedStatement statement = null;
-//				
-//		//Formtemplate name, Formtemplate html, Formtemplate ID, user ID
-//		String query = "CALL sp_UpdateFormtemplate(?,?,?,?)";
-//		
-//		try {
-//			
-//			statement = conn.prepareStatement(query);
-//			
-//			statement.setString(1, theFormtemplateName);
-//			statement.setString(2, theFormtemplateHtml);
-//			statement.setInt(3, theFormtemplateId);
-//			statement.setString(4, wNumber);
-//			
-//			statement.executeQuery();
-//						
-			//ResultSet result = statement.executeQuery();
-			
-//			while(result.next()){
-//				
-//				String updatedFormtemplateName = result.getString("UserFormtemplateName");
-//				String updatedFormtemplateHtml = result.getString("UserFormtemplateHtml");
-//				int updatedWnumber = result.getInt("UserFormtemplateID");
-//				String updatedWNumber = result.getString("UID");
-//				
-//TODO HIBERNATE				theUpdatedFormtemplate = 
-//						new Formtemplate(updatedFormtemplateName, updatedFormtemplateHtml, updatedWnumber, updatedWNumber);
-//				
-//			}
-			
-//			
-//			conn.close();
-//			
-//		} catch (Exception e) {
-//			
-//			e.printStackTrace();
-//			
-//			System.out.println("Failed to updated Formtemplate.");
-//			
-//			return false; //if we get to this point, the updated user should equal null
-//		}
-//		
-//		return true;
+	public boolean updateForm( String userFormName, String theFormtemplateHtml, int userFormId, String wNumber){
+
+		edu.weber.resptherapy.charting.model.Userform userform = null;
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
+
+			Criteria cr = session.createCriteria(edu.weber.resptherapy.charting.model.Userform.class);
+			Criteria userCriteria = cr.createCriteria("user");
+			userCriteria.add(Restrictions.eq("userId", wNumber));
+			cr.add(Restrictions.eq("userFormId", userFormId));
+			List<edu.weber.resptherapy.charting.model.Userform> results = cr.list();
+
+			if (results.size() < 1) {
+				throw new HibernateException("No UserForm found!");
+			}
+
+			userform = results.get(0);
+			userform.setUserFormName(userFormName);
+			userform.setFormTemplateHtml(theFormtemplateHtml);
+			session.saveOrUpdate(userform);
+			tx.commit();
+		} catch (Exception e){
+			//log.error(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
+		}
+		return true;
 	}
 
 	//___________________________________________________________________________________________________________________
@@ -334,33 +293,25 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 	
-	public boolean createForm( String FormtemplateHTML, String userID, Date lastEdit, String FormtemplateName){
-		Formtemplate formtemplate = null; // complete with hibernate
-		return true;  // false if there are errors
-		
-		//After successful Formtemplate creation call getAllFormtemplates to refresh list.
-//		PreparedStatement statement = null;
-//		
-//		String query = "CALL sp_CreateFormtemplate(?,?,?,?)";
-		
-//TODO HIBERNATE		try{
-//			statement = conn.prepareStatement(query);
-//			
-//			Blob html = conn.createBlob();
-//			html.setBytes(1, FormtemplateHTML.getBytes());
-//			statement.setBlob(1, html);
-//			statement.setString(2, userID);
-//			statement.setDate(3, new java.sql.Date(lastEdit.getTime()));
-//			statement.setString(4, FormtemplateName);
-//			
-// TODO HIBERNATE			statement.execute();
-//			
-//			conn.close();
-//			
-//			return true;
-//		}catch(Exception e){
-//			return false;
-//		}
+	public boolean createForm( String formTemplateHtml, String userId, Date lastEdit, String formName){
+
+		Userform userform = new Userform();
+		userform.setUserFormName(formName);
+		userform.setFormTemplateHtml(formTemplateHtml);
+		userform.setUserFormLastEdit(lastEdit);
+		userform.setUser(userToBeEdited(userId));
+
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
+			session.save(userform);
+			tx.commit();
+		} catch (HibernateException e){
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
+		}
+		return true;
 	}
 	
 	//___________________________________________________________________________________________________________________
@@ -401,27 +352,32 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 	
-	public boolean updateTemplate(Connection conn, int templateID, String templateName){
-		//Only called to switch active version of template with previous version.
-		PreparedStatement statement = null;
-		
-		String query = "CALL sp_UpdateFormtemplateTemplate(?,?)";
-		
-		try{
-			
-			statement = conn.prepareStatement(query);
-			
-			statement.setInt(1, templateID);
-			statement.setString(2, templateName);
-			
-// TODO HIBERNATE			statement.execute();
-			
-			conn.close();
-			
-			return true;
-		}catch(Exception e){
-			return false;
+	public boolean updateTemplate(int templateID, String formTemplateName, String formTemplateHtml){
+
+		edu.weber.resptherapy.charting.model.Formtemplate formtemplate = null;
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
+
+			Criteria cr = session.createCriteria(edu.weber.resptherapy.charting.model.Formtemplate.class);
+			cr.add(Restrictions.eq("formTemplateId", templateID));
+			List<edu.weber.resptherapy.charting.model.Formtemplate> results = cr.list();
+
+			if (results.size() < 1) {
+				throw new HibernateException("No UserForm found!");
+			}
+
+			formtemplate = results.get(0);
+			formtemplate.setFormTemplateName(formTemplateName);
+			formtemplate.setFormTemplateHtml(formTemplateHtml);
+			session.saveOrUpdate(formtemplate);
+			tx.commit();
+		} catch (Exception e){
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
 		}
+		return true;
 	}
 	
 	//___________________________________________________________________________________________________________________
@@ -433,7 +389,7 @@ public class DatabaseCalls {
 			Criteria cr_userFormtemplate = session.createCriteria(Formtemplate.class);
 			List<Formtemplate> results = cr_userFormtemplate.list();
 			if (results.size() < 1) {
-				throw new HibernateException("No User found!");
+				throw new HibernateException("No templates found!");
 			}
 			Iterator it = results.iterator();
 			while (it.hasNext()) {
@@ -491,56 +447,26 @@ public class DatabaseCalls {
 	//___________________________________________________________________________________________________________________
 	
 		public Formtemplate getTemplateToFillOut( String therapyId){
-			Formtemplate formtemplate = null; // TODO complete with hibernate
+			Formtemplate formtemplate = null; 
+			try {		
+				Session session = DatabaseConnector.getCurrentSession();
+				Transaction tx = session.beginTransaction();
+				Criteria cr_userFormtemplate = session.createCriteria(Formtemplate.class);
+				cr_userFormtemplate.add(Restrictions.eq("formTemplateId", Integer.valueOf(therapyId) )); //template Id
+				
+				formtemplate = (Formtemplate) cr_userFormtemplate.uniqueResult();
+				if (formtemplate == null) {
+					throw new HibernateException("No template found with id: "+therapyId);
+				}
+
+			} catch (HibernateException e){
+				//log.error(e.getMessage(), e);
+				throw new RuntimeException(e.getMessage());
+			} finally {
+				DatabaseConnector.closeSession();
+			}	
 			return formtemplate;
-			
-			
-//			PreparedStatement statement = null;
-//			
-//			String query = "CALL sp_GetTemplate(?)";
-//			try{	
-//				
-//				statement = conn.prepareStatement(query);
-//				
-//				statement.setInt(1, Integer.parseInt(therapyId));
-				
-//TODO HIBERNATE				ResultSet result = statement.executeQuery();
-				
-//				int templateID = 0;
-//				Blob templateHTMLBlob = null;
-//				String templateHTML = null;
-//				String templateName = null;
-//				String templateType = null;
-//				int activeInt = -1;
-//				int templateVersion = -1;
-//				boolean templateActive = true;
-				
-//				while(result.next()){
-//					
-//					templateID = result.getInt("FormtemplateTemplateID");
-//					templateHTMLBlob = result.getBlob("FormtemplateTemplateHTML");
-//					templateHTML = new String(templateHTMLBlob.getBytes(1, (int)templateHTMLBlob.length()));
-//					templateName = result.getString("FormtemplateTemplateName");
-//					templateType = result.getString("FormtemplateTemplateType");
-//					activeInt = result.getInt("FormtemplateTemplateActive");
-//					templateVersion = result.getInt("FormtemplateTemplateVersionNum");
-//					
-//					if (activeInt == 0) {
-//						templateActive = false;
-//					}
-//				}
-//				
-//				TherapyTemplate tempTemplate = new TherapyTemplate(templateName, templateActive, templateHTML, templateID, templateType, templateVersion);
-//				
-//				conn.close();
-//				
-//				return tempTemplate;
-				
-//			}catch(Exception e){
-//				e.printStackTrace();
-//				return null;
-//			}
-//			return formtemplate;
+
 		}
 	
 		

@@ -12,7 +12,7 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 //import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
+//import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;

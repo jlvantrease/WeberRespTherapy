@@ -1,61 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.Iterator"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="java.util.HashMap"%>
 <%@ page import="edu.weber.resptherapy.charting.Dashboard"%>
+<%@ page import="edu.weber.resptherapy.charting.model.Formtemplate"%>
 <%@ page import="edu.weber.resptherapy.charting.model.User"%>
 <%@ page import="edu.weber.resptherapy.charting.model.Userform"%>
-<%@ page import="edu.weber.resptherapy.charting.model.Formtemplate"%>
 <%@ page import="java.io.BufferedReader"%>
 <%@ page import="java.io.StringReader"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.Map"%>
 
 <!-- Global Java Variables -->
 <%
 	Dashboard dashboard = new Dashboard();
-%>
-<%
 	ArrayList<String> leftPaneList = new ArrayList<String>();
-%>
-<%
 	User loggedInUser = (User) session.getAttribute("user");
-%>
-<%
 	System.out.println(loggedInUser);
-%>
-<%
 	Map<String, User> allUsers = new HashMap<String, User>();
-%>
-<%
 	Map<Integer, Formtemplate> allTemplates = new HashMap<Integer, Formtemplate>();
-%>
-<%
 	boolean isEditingTemplate = false;
-%>
-<%
 	boolean isEditingUser = false;
-%>
-<%
 	boolean isEditingForm = false;
-%>
-<%
 	User userBeingEdited = (User) session.getAttribute("userToBeEdited");
-%>
-<%
-Formtemplate getTemplateToFillOut = (Formtemplate) session.getAttribute("getTemplateToFillOut");
-%>
-<%
+	Formtemplate getTemplateToFillOut = (Formtemplate) session.getAttribute("getTemplateToFillOut");
+	if (getTemplateToFillOut != null) {
+		System.out.println("Editing template: "+getTemplateToFillOut.getFormTemplateName());
+	}
 	Map<Integer, Userform> userForms = (Map<Integer, Userform>) session.getAttribute("userForms");
-%>
-<%
-Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
+	Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Respiratory Therapy Charting</title>
+
+
+	<title>Respiratory Therapy Charting</title>
 <link rel="stylesheet" href="../css/styles.css">
 <link rel="stylesheet" href="../css/bootstrap.min.css">
 <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
@@ -74,8 +54,10 @@ Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
 
 <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0">
 <script>
-        
-     $(document).ready(function() {
+	var editingTemplate = <%=isEditingTemplate%>;
+	var editTemplate = <%=getTemplateToFillOut%>;
+	var isAdmin = <%=loggedInUser.isUserAdmin()%>;
+			$(document).ready(function() {
         	
         	populateLoggedInUserInfo(); 
         	
@@ -171,20 +153,20 @@ Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
 					<h2 style="text-align: center;">User Information</h2>
 				</div>
 				<div class="formDiv">
-					First: <input id="firstNameInput" type="text" class="userFormInput">
-					Last: <input id="lastNameInput" type="text" class="userFormInput">
+					First: <input id="firstNameInput" type="text" maxlength="45" class="userFormInput">
+					Last: <input id="lastNameInput" type="text" maxlength="45" class="userFormInput">
 				</div>
 				<hr class="formHR">
 				<div class="formDiv">
-					W#:&nbsp;&nbsp;&nbsp;&nbsp;<input id="wNumberInput" type="text"
+					W#:&nbsp;&nbsp;&nbsp;&nbsp;<input id="wNumberInput" type="text" maxlength="10"
 						class="userFormInput">
 				</div>
 				<div class="formDiv">
-					Year:&nbsp;&nbsp;<input type="text" id="yearInput"
+					Year:&nbsp;&nbsp;<input type="text" id="yearInput" maxlength="4"
 						class="userFormInput" id="userFormYear">
 				</div>
 				<div class="formDiv">
-					Email: <input type="text" id="emailInput" class="userFormInput"
+					Email: <input type="text" id="emailInput" maxlength="45" class="userFormInput"
 						id="userFormEmail">
 				</div>
 				<div class="formDiv">
@@ -267,7 +249,7 @@ Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
     		type: "POST",
     		data: {templateId: therapyId, type: 'getTemplateToFillOut'},
     		success: function data() {
-    			<%isEditingUser = true;%>
+     			<%isEditingUser = true;%>
     			window.location.reload();
     		}	
     	});
@@ -361,7 +343,20 @@ Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
  	<%if(loggedInUser.isUserAdmin()) { %>  
         	showAdminDashboard();
         	setEditTemplateFunctionality();
-        	<%allUsers = (HashMap<String, User>) session.getAttribute("allUsers");%>
+	 if (editingTemplate) {
+		 $('#contentHolder').children().hide();
+		 $('#formBuilder').show();
+		 //$('#generatedForm').html(editTemplate);
+		 // re-enable form builder functionality
+		 var pattern = /<div class="form-group"(.*?)>/gi;
+		 var editingTemplateFormat = editTemplate.replace(pattern,"<div class=\"form-group ui-draggable element\"><div class=\"close\">×</div>");
+		 pattern = /<form method="POST"(.*?)>/i;
+		 editingTemplateFormat = editingTemplateFormat.replace(pattern,"<form id=\"content\" class=\"form-horizontal ui-droppable ui-sortable\">");
+		 $('#content').html(editingTemplateFormat);
+		 //$("#source").val(editTemplate);
+	 }
+
+	 <%allUsers = (HashMap<String, User>) session.getAttribute("allUsers");%>
         	
         	//If the admin is editing a user the userToBeEdited is retrieved from the session and the user info is loaded into the user edit form
         		<%if(isEditingUser && userBeingEdited != null) {%>
@@ -369,12 +364,13 @@ Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
 				showEditUserWithLoadedInfo();
 				<%}
         	
-        		else if (isEditingTemplate && getTemplateToFillOut != null && loggedInUser.isUserAdmin() ) { %>
+        		else if (getTemplateToFillOut != null && loggedInUser.isUserAdmin() ) { %>
         			$('#contentHolder').children().hide();
         			$('#formBuilder').show();	
 					$('#generatedForm').html(<%=getTemplateToFillOut%>);
 				<%}
-		}
+
+ }
  	
  	
  	    //If the logged in user is a student and they are filling out a new form - show the original template
@@ -514,12 +510,12 @@ Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
 				showAddTherapyButton();
 			<%}%>
 	
-			<%//TODO Map<Integer, TherapyTemplate> beginningTherapiesMap = dashboard.getBeginningTherapies(allTemplates);
+			<%
+			Map<Integer, Formtemplate> beginningTherapiesMap = dashboard.getBeginningTherapies(allTemplates);
         	Map<String, String> beginningTherapies = new HashMap<String, String>();
-        	//TODOfor(Integer key : beginningTherapiesMap.keySet()) {
- 			//TODO	beginningTherapies.put(Integer.toString(beginningTherapiesMap.get(key).getId()), beginningTherapiesMap.get(key).getName());
- 			//TODO}
-        		
+        	for(Integer key : beginningTherapiesMap.keySet()) {
+ 				beginningTherapies.put(Integer.toString(beginningTherapiesMap.get(key).getFormTemplateId()), beginningTherapiesMap.get(key).getFormTemplateName());
+ 			}
         		
         		String newBeginningTherapyHtml = dashboard.updateLeftLinks(beginningTherapies, "therapies", loggedInUser.isUserAdmin());%>
 					$("#leftListItems").replaceWith(<%=newBeginningTherapyHtml%>);
@@ -641,14 +637,21 @@ Userform formToFillOut =  (Userform) session.getAttribute("formToFillOut");
 	function showTemplateInFormGenerator(therapyId) {
 		$('#contentHolder').children().hide();
 		var templateHtml;
-		
 		$.ajax({
 			url: "../ServletTherapy",
 			type: "POST",
+			dataType: "json",
 			data: {templateId: therapyId, type: 'getTemplateToFillOut'},
-			success: function data() {
-				<% isEditingTemplate = true; %>
-				window.location.reload();
+			success:  function(jsonObj){
+				//alert("showTemplateInFormGenerator:" + jsonObj.getTemplateToFillOut.formTemplateHtml);
+				editingTemplate = true;
+				editTemplate=jsonObj.getTemplateToFillOut.formTemplateHtml;
+				showStudentOrAdminDashboard();
+				//window.location.reload();
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+   			alert("getTemplateToFillOut Page Error")
+ 				//window.location.reload();
 			}	
 		});
 		
