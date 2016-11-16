@@ -3,7 +3,6 @@ package edu.weber.resptherapy.charting;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -127,9 +126,31 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 
-	public User updateUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
-		//todo add select statement to get the changes to the user.
-		//if admin simply rerun getAllUsers
+	//firstName, lastName, email, needsResetPassword
+	public User updateUser(User user, String firstName, String lastName, String email, boolean needsResetPassword){
+
+		user.setUserFirst(firstName);
+		user.setUserLast(lastName);
+		user.setUserPassReset(needsResetPassword);
+		user.setUserEmail(email);
+
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
+			session.save(user);
+			tx.commit();
+		} catch (HibernateException e){
+			//log.error(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
+		}
+		return user;
+	}
+
+		///END Hibernate
+
+		/*
 		User theUpdatedUser = null;
 		
 		PreparedStatement statement = null;
@@ -193,9 +214,8 @@ public class DatabaseCalls {
 			return theUpdatedUser; //if we get to this point, the updated user should equal null
 		}
 		
-		return theUpdatedUser;
-	}
-	
+		return theUpdatedUser;  */
+
 	//___________________________________________________________________________________________________________________
 	
 	public boolean changePassword(String wNumber, String theNewPassword){
