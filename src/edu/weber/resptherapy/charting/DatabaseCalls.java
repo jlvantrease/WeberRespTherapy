@@ -282,36 +282,25 @@ public class DatabaseCalls {
 	
 	//template block
 	
-	public boolean createTemplate(Connection conn, String templateName, String templateHTML, String templateType){
-		//After successful template creation call getAllTemplates to refresh list.
-		//todo: should handle the creation of a new version when stored procedure is called and auto set template version.
-		PreparedStatement statement = null;
-		
-		String query = "CALL sp_CreateTemplate(?,?,?)";
-		
-		try{
-			
-			statement = conn.prepareStatement(query);
-			
-			statement.setString(1, templateName);
-			
-			//create html blob
-			Blob html = conn.createBlob();
-			//covert to bytes
-			html.setBytes(1, templateHTML.getBytes());
-			
-			statement.setBlob(2, html);
-			statement.setString(3, templateType);
-			
-// TODO HIBERNATE			statement.execute();
-			
-			conn.close();
-			
-			return true;
-			
-		}catch(Exception e){
-			return false;
+	public boolean createTemplate(String templateName, String templateHTML, String templateType){
+
+		//CONVERTED TO HIBERNATE by Jerry C.
+		Formtemplate formtemplate = new Formtemplate();
+		formtemplate.setFormTemplateName(templateName);
+		formtemplate.setFormTemplateHtml(templateHTML);
+		formtemplate.setFormTemplateType(templateType);
+
+		try {
+			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
+			session.save(formtemplate);
+			tx.commit();
+		} catch (HibernateException e){
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			DatabaseConnector.closeSession();
 		}
+		return true;
 	}
 	
 	//___________________________________________________________________________________________________________________

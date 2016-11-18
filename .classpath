@@ -9,5 +9,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/json-lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ezmorph-1.0.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-lang-2.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-beanutils-1.7.0"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
