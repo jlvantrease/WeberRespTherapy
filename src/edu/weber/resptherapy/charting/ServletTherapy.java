@@ -105,7 +105,7 @@ public class ServletTherapy extends HttpServlet {
 			DatabaseCalls calls = new DatabaseCalls();
 			
 			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
-			return calls.createTemplate(null, templateName, templateHTML, templateType);
+			return calls.createTemplate(templateName, templateHTML, templateType);
 		
 		}catch(Exception e){
 			e.printStackTrace();
