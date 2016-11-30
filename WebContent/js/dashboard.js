@@ -147,6 +147,7 @@ function addFunctionToTabs() {
 
 //Make the top left button a button to create a new therapy
 function showAddTherapyButton() {
+	templateOperation='createTemplate';
 	$("#leftListButton").text("Create New Therapy");
 	$("#leftListButton").show();
 	setAddTherapyFunctionToButton();
@@ -247,6 +248,7 @@ function setAddTherapyFunctionToButton() {
 		$('#contentHolder').children().hide();
 		$('#formBuilder').show();
 		$('#content').show();
+
 	});
 }
 

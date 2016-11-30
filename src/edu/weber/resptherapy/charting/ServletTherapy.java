@@ -84,14 +84,15 @@ public class ServletTherapy extends HttpServlet {
 			
 			}
 		else if (type.equals("updateTemplate")) {
-			
-			int templateID = Integer.valueOf(request.getParameter("templateID"));
 			String templateName = request.getParameter("templateName");
-			
-			updateTemplate(templateID, templateName);
+			String templateHTML = request.getParameter("templateHTML");
+		
+			updateTemplate(0, templateName,templateHTML);
 			
 			session.setAttribute("allTemplates", getAllTemplates());
 			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+
+
 		}
 		
 		
@@ -118,24 +119,16 @@ public class ServletTherapy extends HttpServlet {
     //___________________________________________________________________________________________________________________
 
 	//boolean updateTemplate()
-	public boolean updateTemplate(int templateID, String templateName){
-		
-		
-//		DatabaseConnector connector = new DatabaseConnector();
-		
+	public boolean updateTemplate(int templateID, String templateName, String templateHTML){
 		try {
 			DatabaseCalls calls = new DatabaseCalls();
-			
-			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
-			return calls.updateTemplate(templateID, templateName, null);
+			return calls.updateTemplate(templateID, templateName, templateHTML);
 			
 		}catch(Exception e){
 			e.printStackTrace();
 			
 			return false;
 		}
-		
-		
 		
 	}
 	

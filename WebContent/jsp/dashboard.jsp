@@ -57,6 +57,7 @@
 	var editingTemplate = <%=isEditingTemplate%>;
 	var editTemplate = <%=getTemplateToFillOut%>;
 	var isAdmin = <%=loggedInUser.isUserAdmin()%>;
+	var templateOperation='createTemplate';
 			$(document).ready(function() {
         	
         	populateLoggedInUserInfo(); 
@@ -233,7 +234,7 @@
 			data: {userId: wNumber, type: 'getUserToEdit'},
 			success: function data() {
 					<%isEditingUser = true;%>
-					window.location.reload();
+					//window.location.reload();
 			}
 			
 		});
@@ -247,14 +248,28 @@
     	$.ajax({
     		url: "../ServletTherapy",
     		type: "POST",
+    		dataType: "json",
     		data: {templateId: therapyId, type: 'getTemplateToFillOut'},
-    		success: function data() {
-     			<%isEditingUser = true;%>
-    			window.location.reload();
+    		success: function data(jsonObj) {
+    			editingTemplate = true;
+    			editTemplate=jsonObj.getTemplateToFillOut.formTemplateHtml;
+    			templateHtml = editTemplate;
+//    			showStudentOrAdminDashboard();
+//    			<%isEditingUser = true;%>
+				var originalFormHtml = $("#templateFormHtml").html();
+
+				$('#contentHolder').children().hide();
+				$("#templateFormHtml").html(originalFormHtml + templateHtml);
+				$("#saveFilledOutFormButton").show();
+				$("#saveEditedFormButton").hide();
+				$("#templateForm").show();
+
+    			//window.location.reload();
     		}	
     	});
     }
   
+
   function saveFilledOutForm() {
 	  var theFormHtml = $("#templateFormHtml").html();
 	  var userNumber = '<%=loggedInUser.getUserId()%>';
@@ -612,7 +627,7 @@
 			url : "../ServletTherapy",
 			type : "POST",
 			data : {
-				type : 'createTemplate',
+				type : templateOperation,
 				templateHTML : formHTML,
 				templateName : $("#content_form_name > legend").text().trim(),
 				templateType : $("#formType").val()
@@ -645,6 +660,7 @@
 			success:  function(jsonObj){
 				//alert("showTemplateInFormGenerator:" + jsonObj.getTemplateToFillOut.formTemplateHtml);
 				editingTemplate = true;
+				templateOperation='updateTemplate';
 				editTemplate=jsonObj.getTemplateToFillOut.formTemplateHtml;
 				showStudentOrAdminDashboard();
 				//window.location.reload();

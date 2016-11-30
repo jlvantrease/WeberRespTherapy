@@ -127,37 +127,73 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 
-	public User updateUser(String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
-		User user = userToBeEdited(wNumber);
-		if(user == null)
-		{
-			System.out.print("No user here");
-			System.exit(1);
-		}
-		user.setUserId(wNumber);
-		user.setUserFirst(firstName);
-		user.setUserLast(lastName);
-		user.setPassword(firstName.substring(0,1).toLowerCase() +
-				lastName.substring(0,1).toLowerCase() +
-				wNumber.substring(wNumber.length() - 4));
-		user.setUserAdmin(isAdmin);
-		user.setUserPassReset(true);
-		user.setUserActive(true);
-		user.setUserEmail(email);
-		user.setUserYear(year);
-
+	public User updateUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
+		//todo add select statement to get the changes to the user.
+		//if admin simply rerun getAllUsers
+		User theUpdatedUser = null;
+		
+		PreparedStatement statement = null;
+				
+		String query = "CALL sp_UpdateUser(?,?,?,?,?,?,?,?)";
+		
 		try {
-			Session session = DatabaseConnector.getCurrentSession();
-			Transaction tx = session.beginTransaction();
-			session.saveOrUpdate(user);
-			tx.commit();
-		} catch (HibernateException e){
-			//log.error(e.getMessage(), e);
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			DatabaseConnector.closeSession();
+			
+			statement = conn.prepareStatement(query);
+			
+			statement.setString(1, wNumber);
+			statement.setString(2, firstName);
+			statement.setString(3, lastName);
+			statement.setBoolean(4, isAdmin);
+			statement.setBoolean(5, needsResetPassword);
+			statement.setString(6, email);
+			statement.setBoolean(7, isActive);
+			statement.setDate(8, new java.sql.Date(year.getTime()));
+						
+			//execute the query to update the user
+			statement.executeQuery();
+			
+			//set up new SQL query to fetch the user that we just now updated
+			query = "SELECT UserID, UserFirst, UserLast, UserAdmin, UserYear, UserEmail, UserActive, UserPassReset "
+					+ "FROM USER "
+					+ "WHERE UserID = ?";
+		
+			
+			statement = conn.prepareStatement(query);
+			
+			//put the user's W Number into the query
+			statement.setString(1, wNumber);
+			
+			//execute the query which will return the updated User
+			ResultSet result = statement.executeQuery();
+			
+			while(result.next()){
+				
+				String updatedUserId = result.getString("UserID");
+				String updatedFirstName = result.getString("UserFirst");
+				String updatedLastName = result.getString("UserLast");
+				String updatedEmail = result.getString("UserEmail");
+				int updatedIsAdmin = result.getInt("UserAdmin");
+				Date updatedYear = result.getDate("UserYear");
+				int updatedIsActive = result.getInt("UserActive");
+				int updatedNeedsResetPassword = result.getInt("UserPassReset");
+				
+//TODO: hibernate				theUpdatedUser = 
+//						new User(updatedUserId, updatedFirstName, updatedLastName, updatedEmail, updatedIsAdmin, updatedYear, updatedIsActive, updatedNeedsResetPassword);
+				
+			}
+			
+			conn.close();
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			System.out.println("Failed to updated user.");
+			
+			return theUpdatedUser; //if we get to this point, the updated user should equal null
 		}
-		return user;
+
+		return theUpdatedUser;
 	}
 	
 	//___________________________________________________________________________________________________________________
@@ -282,25 +318,34 @@ public class DatabaseCalls {
 	
 	//template block
 	
-	public boolean createTemplate(String templateName, String templateHTML, String templateType){
-
-		//CONVERTED TO HIBERNATE by Jerry C.
-		Formtemplate formtemplate = new Formtemplate();
-		formtemplate.setFormTemplateName(templateName);
-		formtemplate.setFormTemplateHtml(templateHTML);
-		formtemplate.setFormTemplateType(templateType);
-
+	public boolean createTemplate( String templateName, String templateHTML, String templateType){
+		edu.weber.resptherapy.charting.model.Formtemplate formtemplate = null;
 		try {
 			Session session = DatabaseConnector.getCurrentSession();
 			Transaction tx = session.beginTransaction();
-			session.save(formtemplate);
+
+			Criteria cr = session.createCriteria(edu.weber.resptherapy.charting.model.Formtemplate.class);
+			cr.add(Restrictions.eq("formTemplateName", templateName));
+
+			formtemplate = (Formtemplate) cr.uniqueResult();
+			if (formtemplate == null) {
+				formtemplate = new Formtemplate();
+				formtemplate.setFormTemplateVersionNum(0);
+			}
+			formtemplate.setFormTemplateType(templateType);
+			formtemplate.setFormTemplateName(templateName);
+			formtemplate.setFormTemplateHtml(templateHTML);
+			formtemplate.setFormTemplateActive(true);
+			formtemplate.setFormTemplateVersionNum(formtemplate.getFormTemplateVersionNum()+1);
+			session.saveOrUpdate(formtemplate);
 			tx.commit();
-		} catch (HibernateException e){
+		} catch (Exception e){
 			throw new RuntimeException(e.getMessage());
 		} finally {
 			DatabaseConnector.closeSession();
 		}
-		return true;
+		return true;		
+
 	}
 	
 	//___________________________________________________________________________________________________________________
@@ -313,14 +358,14 @@ public class DatabaseCalls {
 			Transaction tx = session.beginTransaction();
 
 			Criteria cr = session.createCriteria(edu.weber.resptherapy.charting.model.Formtemplate.class);
-			cr.add(Restrictions.eq("formTemplateId", templateID));
-			List<edu.weber.resptherapy.charting.model.Formtemplate> results = cr.list();
+			cr.add(Restrictions.eq("formTemplateName", formTemplateName));
+//			List<edu.weber.resptherapy.charting.model.Formtemplate> results = cr.list();
+//
+//			if (results.size() < 1) {
+//				throw new HibernateException("No UserForm found!");
+//			}
 
-			if (results.size() < 1) {
-				throw new HibernateException("No UserForm found!");
-			}
-
-			formtemplate = results.get(0);
+			formtemplate = (Formtemplate) cr.uniqueResult();
 			formtemplate.setFormTemplateName(formTemplateName);
 			formtemplate.setFormTemplateHtml(formTemplateHtml);
 			session.saveOrUpdate(formtemplate);
@@ -363,6 +408,7 @@ public class DatabaseCalls {
 	//___________________________________________________________________________________________________________________
 	
 	public String generatePDF(Connection conn, String userID, int FormtemplateID){
+	
 		
 		PreparedStatement statement = null;
 		
