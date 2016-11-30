@@ -407,41 +407,37 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 	
-	public String generatePDF(Connection conn, String userID, int FormtemplateID){
-	
-		
-		PreparedStatement statement = null;
-		
-		String query = "CALL sp_GetUserFormtemplate(?,?)";
-		try{
-			
-			
-			statement = conn.prepareStatement(query);
-			
-			statement.setString(1, userID);
-			statement.setInt(2, FormtemplateID);
-			
-//TODO HIBERNATE			ResultSet result = statement.executeQuery();
-			
-			Blob FormtemplateHTMLBlob = null;
-			String FormtemplateHTML = null;
-			
-//			while(result.next()){
-//				
-//				FormtemplateHTMLBlob = result.getBlob("UserFormtemplateHtml");
-//				FormtemplateHTML = new String(FormtemplateHTMLBlob.getBytes(1, (int)FormtemplateHTMLBlob.length()));
-//			}
-			
-			conn.close();
-			
-			return FormtemplateHTML;
-			
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-		
-	}
+	public String generatePDF( String userID, int FormtemplateID){
+
+
+				//User u = new User(userID);
+				String FormtemplateHTML = null;
+
+				try {
+					Session session = DatabaseConnector.getCurrentSession();
+					Transaction tx = session.beginTransaction();
+					Criteria cr = session.createCriteria(Userform.class);  // We are telling Hibernate to use the Userform class to load data from the DB Userform table
+
+					//cr.add(Restrictions.eq("user", u)); // parameters for where clause
+					cr.add(Restrictions.eq("userFormId", FormtemplateID));
+
+					Userform userForm = (Userform) cr.uniqueResult(); // load data and cast the results to a Userform class
+					if (userForm == null) {
+						throw new HibernateException("User form not found!");
+					}
+					
+					FormtemplateHTML = userForm.getFormTemplateHtml(); // FormtemplateHTML is in the object returned from DB (in the DB row)
+					return FormtemplateHTML;
+
+				} catch (HibernateException e){
+					//log.error(e.getMessage(), e);
+					throw new RuntimeException(e.getMessage());
+					//return null;
+				} finally {
+					DatabaseConnector.closeSession();
+				}
+
+		}//end generatePDF
 	
 	//___________________________________________________________________________________________________________________
 	
