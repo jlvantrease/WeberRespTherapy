@@ -96,7 +96,6 @@ public class ServletUser extends HttpServlet {
 				//pass all information forward to the dashboard.jsp
 				//TODO can't hard code local host - make into a property
 				response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
-				return;
 			}
 			//if login is UNsuccessful
 			else{
@@ -114,7 +113,7 @@ public class ServletUser extends HttpServlet {
 
 			session.invalidate();
 			
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/login.jsp");
 						
 		}else if(type.equals("getAllUsers")){
 			

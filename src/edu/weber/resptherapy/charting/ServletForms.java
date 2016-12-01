@@ -1,10 +1,6 @@
 package edu.weber.resptherapy.charting;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringReader;
+import java.io.*;
 import java.util.Date;
 import java.util.Map;
 
@@ -66,16 +62,14 @@ public class ServletForms extends HttpServlet {
 			String theFormName = request.getParameter("formName");
 			
 			createForm(theFormHtml, userId, theFormName);
-			
 			session.setAttribute("userForms", getAllForms(userId));
-		}
-		else if (type.equals("getAllForms")) {
+
+		}	else if (type.equals("getAllForms")) {
 			
 			String userId = request.getParameter("userID");
-			
-			session.setAttribute("userForms", getAllForms(userId)); 
-		}
-		else if (type.equals("updateForm")) {
+			session.setAttribute("userForms", getAllForms(userId));
+
+		} else if (type.equals("updateForm")) {
 			
 			String theFormHtml = request.getParameter("formHTML");
 			String userId = request.getParameter("userID");
@@ -83,26 +77,20 @@ public class ServletForms extends HttpServlet {
 			int theFormId = Integer.valueOf(request.getParameter("formID"));
 			
 			updateForm(theFormName, theFormHtml, theFormId, userId);
-			
 			session.setAttribute("userForms", getAllForms(userId));
-		}
-		else if (type.equals("generatePDF")) {
+
+		} else if (type.equals("generatePDF")) {
 			
 			String userID = request.getParameter("userID");
 			int formID = Integer.valueOf(request.getParameter("formID"));
 			
 			OutputStream out = response.getOutputStream();
 			
-			PrintWriter pw = response.getWriter();
-			
 			response.setContentType("application/pdf");
 			response.setHeader("content-disposition", "attachment; filename=\"myform.pdf\"");
-			
-			
-			
 			generatePDF(out, userID, formID);
-		}
-		else if (type.equals("getFormToEdit")) {
+
+		} else if (type.equals("getFormToEdit")) {
 			
 			String userID = request.getParameter("userID");
 			int formID = Integer.valueOf(request.getParameter("formID"));	
@@ -114,7 +102,7 @@ public class ServletForms extends HttpServlet {
 	//___________________________________________________________________________________________________________________
 	
 	//boolean createForm()
-	public boolean createForm(String theFormHtml, String userId, String theFormName){
+	private boolean createForm(String theFormHtml, String userId, String theFormName){
 		
 		Date todaysDate = new Date();
 		
@@ -154,7 +142,7 @@ public class ServletForms extends HttpServlet {
 	}
 	
 	//boolean updateForm()
-	public boolean updateForm(String theFormName, String theFormHtml, int theFormId, String theUserId){
+	private boolean updateForm(String theFormName, String theFormHtml, int theFormId, String theUserId){
 		
 //		DatabaseConnector connector = new DatabaseConnector();
 //		
@@ -174,7 +162,7 @@ public class ServletForms extends HttpServlet {
 	}
 	
 	//boolean updateForm()
-		public Userform getFormToEdit(String userId, int theFormId){
+		private Userform getFormToEdit(String userId, int theFormId){
 			
 //			DatabaseConnector connector = new DatabaseConnector();
 //			
@@ -193,28 +181,15 @@ public class ServletForms extends HttpServlet {
 //			}
 		}
 
-	public void generatePDF(OutputStream out, String userID, int formID){
+	private void generatePDF(OutputStream out, String userID, int formID){
 		
 		try {
 			
 			DatabaseConnector connector = new DatabaseConnector();  // This will setup hibernate, but not really7 needed
 			
 			DatabaseCalls calls = new DatabaseCalls();
-			
-//example:			userID = "w11112222"; formID = 1;
-			//TODO: remove first parameter, no longer needed. null reference was a 'Connection' conn java class, not needed for hibernate
-			String html = calls.generatePDF(null, userID, formID); 
-			
-//			FileInputStream in = new FileInputStream(html);
-//			byte[] buffer = new byte[4096];
-//			int length;
-//			
-//			while( (length = in.read(buffer)) > 0 ){
-//				
-//				out.write(buffer, 0, length);
-//			}
-						
-			
+			String html = calls.generatePDF(userID, formID);
+
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			Document doc = new Document(PageSize.A4);
 			PdfWriter.getInstance(doc, byteArrayOutputStream);
@@ -224,29 +199,15 @@ public class ServletForms extends HttpServlet {
 			doc.close();
 
 			byte[] pdfBytes = byteArrayOutputStream.toByteArray();
-			
-			
-			
-			int length;
-			
-			while( (length = pdfBytes.length) > 0 ){
-				
-				out.write(pdfBytes);
-			}
-			
-//			in.close();
-//			out.flush();
-			
-			
-			
-//			return doc;
+			out.write(pdfBytes);
+      out.flush();
 			
 		} catch (DocumentException|IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("PDF generation failed!");
-		} 
-		
+		}
+
 	}
 	
 	
