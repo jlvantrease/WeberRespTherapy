@@ -113,7 +113,7 @@ public class ServletUser extends HttpServlet {
 
 			session.invalidate();
 			
-			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/login.jsp");
+			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/login.jsp");
 						
 		}else if(type.equals("getAllUsers")){
 			
