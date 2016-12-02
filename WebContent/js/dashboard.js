@@ -46,8 +46,8 @@ function setFunctionToUserIcon() {
 			data: {type: 'logout'},
 			success: function data()
 			{
-				$(location).attr('href',"http://localhost/WeberRespiratoryTherapy/login.jsp");		
-			}			
+				$(location).attr('href',"http://localhost:8080/WeberRespiratoryTherapy/login.jsp");
+			}
 		});
 	});
 	
