@@ -79,6 +79,7 @@ public class DatabaseCalls {
 		edu.weber.resptherapy.charting.model.User user = null; // TODO hibernate conversion
 		try {
 			Session session = DatabaseConnector.getCurrentSession();
+			Transaction tx = session.beginTransaction();
 			Criteria cr = session.createCriteria(edu.weber.resptherapy.charting.model.User.class);
 			cr.add(Restrictions.eq("userId", wNumber)); //wNumber
 			User result = (User) cr.uniqueResult();

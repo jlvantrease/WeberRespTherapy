@@ -273,11 +273,12 @@
   function saveFilledOutForm() {
 	  var theFormHtml = $("#templateFormHtml").html();
 	  var userNumber = '<%=loggedInUser.getUserId()%>';
-	  if($("#formName").val() != null) {
+	  if($("#formName").val() != null && $("#formName").val().length > 2) {
 		 var nameOfForm =  $("#formName").val();
 	  }
 	  else {
 		  alert("Please enter a form name");
+		  return;
 	  }
 	  
 	  $.ajax({

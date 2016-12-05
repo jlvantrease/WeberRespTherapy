@@ -530,4 +530,9 @@ function setUserFormsFunctionality() {
 	$("#saveFilledOutFormButton").click(function() {
 		saveFilledOutForm();
 	});
+	
+	$("#saveEditedFormButton").click(function() {
+		saveEditedFilledOutForm();
+	});
+
 }

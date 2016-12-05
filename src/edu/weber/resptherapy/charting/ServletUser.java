@@ -60,20 +60,6 @@ public class ServletUser extends HttpServlet {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			
-			// statrt of example code
-			//show different forms of Hibernate select queries
-			DatabaseConnector.hibernateExample1();
-			DatabaseConnector.hibernateExample2();
-			DatabaseConnector.hibernateExample3();
-			DatabaseConnector.hibernateExample4();
-			User eu = DatabaseConnector.hibernateInsertExample();
-			eu.setUserFirst("Hannibal");
-			eu = DatabaseConnector.hibernateUpdateExample(eu);
-			DatabaseConnector.hibernateDeleteExample(eu);
-			
-			/// end of example code
-			
-			
 			User theUser = login(username, password);
 			
 			session.setAttribute("user", theUser);

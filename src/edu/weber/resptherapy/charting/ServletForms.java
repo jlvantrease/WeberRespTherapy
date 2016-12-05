@@ -1,6 +1,10 @@
 package edu.weber.resptherapy.charting;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.Date;
 import java.util.Map;
 
@@ -67,14 +71,13 @@ public class ServletForms extends HttpServlet {
 		}	else if (type.equals("getAllForms")) {
 			
 			String userId = request.getParameter("userID");
-			session.setAttribute("userForms", getAllForms(userId));
-
-		} else if (type.equals("updateForm")) {
-			
-			String theFormHtml = request.getParameter("formHTML");
-			String userId = request.getParameter("userID");
-			String theFormName = request.getParameter("formName");
-			int theFormId = Integer.valueOf(request.getParameter("formID"));
+			session.setAttribute("userForms", getAllForms(userId)); 
+		}
+		else if (type.equals("updateForm")) {
+			String theFormHtml = request.getParameter("theFormHTML");
+			String userId = request.getParameter("userId");
+			String theFormName = request.getParameter("theFormName");
+			int theFormId = Integer.valueOf(request.getParameter("theFormId"));
 			
 			updateForm(theFormName, theFormHtml, theFormId, userId);
 			session.setAttribute("userForms", getAllForms(userId));
