@@ -3,10 +3,6 @@
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
 	<levels>
-		<level name="lib" value="project"/>
-		<level name="json-lib" value="project"/>
-		<level name="ezmorph-1.0.4" value="project"/>
-		<level name="commons-lang-2.4" value="project"/>
-		<level name="commons-beanutils-1.7.0" value="project"/>
+		<level name="tomcat-dbcp" value="project"/>
 	</levels>
 </component>
