@@ -535,4 +535,8 @@ function setUserFormsFunctionality() {
 		saveEditedFilledOutForm();
 	});
 
+	$("#generatePDFButton").click(function() {
+        generatePdfForForm();
+	})
+
 }

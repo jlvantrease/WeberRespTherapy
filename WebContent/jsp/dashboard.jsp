@@ -144,11 +144,8 @@
 				style="margin-left: auto; margin-right: auto; text-align: center;">
 				<button id="saveFilledOutFormButton">Save</button>
 				<button id="saveEditedFormButton">Update</button>
-				<button id="generatePDFButton" type="button"
-                    onclick="window.location.href='${pageContext.request.contextPath}/downloadForm?userID=<%=loggedInUser.getUserId()%>&formID=<%=formToFillOut.getUserFormId()%>'">
-                    Generate PDF
-                </button>
-                <a href="${pageContext.request.contextPath}/downloadForm?userID=<%=loggedInUser.getUserId()%>&formID=<%=formToFillOut.getUserFormId()%>'">Click to Generate a PDF.</a>
+				<button id="generatePDFButton" type="button">Generate PDF</button>
+
 			</div>
 		</div>
 
@@ -336,18 +333,16 @@
   }
 
   function generatePdfForForm() {
-		$("#generatePDFButton").click(function() {
-			var wNumber = '<%=loggedInUser.getUserId()%>';
-			<%if(formToFillOut != null) {%>
-				var formId = '<%=formToFillOut.getUserFormId()%>';
-			<%}%>
+		var wNumber = '<%=loggedInUser.getUserId()%>';
+		<%if(formToFillOut != null) {%>
+			var formId = '<%=formToFillOut.getUserFormId()%>';
+		<%}%>
 
-			if (formId) {
-				;
-			} else {
-				alert("No form selected. Please select a form before attempting to download a PDF.")
-			}
-		});
+		if (formId) {
+			window.location.href = "${pageContext.request.contextPath}/downloadForm?userID=" + wNumber + "&formID=" + formId
+		} else {
+			alert("No form selected. Please select a form before attempting to download a PDF.")
+		}
 	}
   
   

@@ -10,14 +10,6 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <servlet-name>ServletUser</servlet-name>
-    <servlet-class>edu.weber.resptherapy.charting.ServletUser</servlet-class>
-  </servlet>
-    <servlet>
-        <servlet-name>ServletFormDownload</servlet-name>
-        <servlet-class>edu.weber.resptherapy.charting.ServletFormDownload</servlet-class>
-    </servlet>
   
    <resource-ref>
       <description>DB Connection</description>
