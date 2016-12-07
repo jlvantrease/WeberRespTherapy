@@ -14,5 +14,8 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/tomcat-dbcp"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/WEB-INF-Lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/WEB-INF_lib"/>
 	<classpathentry kind="output" path="out/production/WeberRespiratoryTherapy"/>
 </classpath>
