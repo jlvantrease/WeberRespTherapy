@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 
-@WebServlet("/ServletFormDownload")
+@WebServlet("/downloadForm")
 public class ServletFormDownload extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
