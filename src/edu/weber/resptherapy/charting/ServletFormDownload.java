@@ -1,12 +1,10 @@
-package edu.weber.resptherapy.charting.model;
+package edu.weber.resptherapy.charting;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.pdf.PdfWriter;
-import edu.weber.resptherapy.charting.DatabaseCalls;
-import edu.weber.resptherapy.charting.DatabaseConnector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +16,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 
-@WebServlet(name = "ServletFormDownload")
+@WebServlet("/ServletFormDownload")
 public class ServletFormDownload extends HttpServlet {
+
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String errMsg = "POST Method not allowed for 'ServletFormDownload' endpoint.";
     response.sendError(405, errMsg);
@@ -57,7 +56,7 @@ public class ServletFormDownload extends HttpServlet {
       out.write(pdfBytes);
       out.flush();
 
-    } catch (DocumentException |IOException e) {
+    } catch (DocumentException | IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
       System.out.println("PDF generation failed!");

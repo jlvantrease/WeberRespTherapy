@@ -144,7 +144,11 @@
 				style="margin-left: auto; margin-right: auto; text-align: center;">
 				<button id="saveFilledOutFormButton">Save</button>
 				<button id="saveEditedFormButton">Update</button>
-				<button id="generatePDFButton">Generate PDF</button>
+				<button id="generatePDFButton" type="button"
+                    onclick="window.location.href='${pageContext.request.contextPath}/downloadForm?userID=<%=loggedInUser.getUserId()%>&formID=<%=formToFillOut.getUserFormId()%>'">
+                    Generate PDF
+                </button>
+                <a href="${pageContext.request.contextPath}/downloadForm?userID=<%=loggedInUser.getUserId()%>&formID=<%=formToFillOut.getUserFormId()%>'">Click to Generate a PDF.</a>
 			</div>
 		</div>
 
@@ -689,39 +693,5 @@
 		
 	}
 
-    function generatePdfFromForm() {
-        $("#generatePDFButton").click(function() {
-            var formHtml = $("#templateFormHtml").html();
-            var wNumber = '<%=loggedInUser.getUserId()%>';
-            var formName = '<%=loggedInUser.getUserId()%>';
-
-            <%if(formToFillOut != null) {%>
-            var formId = '<%=formToFillOut.getUserFormId()%>';
-            <%}%>
-
-            if($("#formName").val() != null) {
-                var nameOfForm =  $("#formName").val();
-            }
-            else {
-                alert("Please enter a form name");
-            }
-
-            $.ajax({
-                url: "../ServletForms",
-                type: "POST",
-                data: {type: 'updateForm',
-                    theFormHTML: formHtml,
-                    theFormName: nameOfForm,
-                    userId: wNumber,
-                    theFormId: formId},
-                success: function(data)
-                {
-                    alert("Form updated!");
-                    window.location.reload();
-                }
-            });
-
-        });
-    }
 </script>
 </html>
