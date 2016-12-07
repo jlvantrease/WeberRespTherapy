@@ -82,17 +82,6 @@ public class ServletForms extends HttpServlet {
 			updateForm(theFormName, theFormHtml, theFormId, userId);
 			session.setAttribute("userForms", getAllForms(userId));
 
-		} else if (type.equals("generatePDF")) {
-			
-			String userID = request.getParameter("userID");
-			int formID = Integer.valueOf(request.getParameter("formID"));
-			
-			OutputStream out = response.getOutputStream();
-			
-			response.setContentType("application/pdf");
-			response.setHeader("content-disposition", "attachment; filename=\"myform.pdf\"");
-			generatePDF(out, userID, formID);
-
 		} else if (type.equals("getFormToEdit")) {
 			
 			String userID = request.getParameter("userID");
@@ -183,35 +172,6 @@ public class ServletForms extends HttpServlet {
 //				return null; // if we get here, getting all forms didn't work
 //			}
 		}
-
-	private void generatePDF(OutputStream out, String userID, int formID){
-		
-		try {
-			
-			DatabaseConnector connector = new DatabaseConnector();  // This will setup hibernate, but not really7 needed
-			
-			DatabaseCalls calls = new DatabaseCalls();
-			String html = calls.generatePDF(userID, formID);
-
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			Document doc = new Document(PageSize.A4);
-			PdfWriter.getInstance(doc, byteArrayOutputStream);
-			doc.open();
-			HTMLWorker worker = new HTMLWorker(doc);
-			worker.parse(new StringReader(html));
-			doc.close();
-
-			byte[] pdfBytes = byteArrayOutputStream.toByteArray();
-			out.write(pdfBytes);
-      out.flush();
-			
-		} catch (DocumentException|IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("PDF generation failed!");
-		}
-
-	}
 	
 	
 //	public void thing(){

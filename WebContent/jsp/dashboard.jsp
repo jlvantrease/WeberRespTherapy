@@ -330,6 +330,21 @@
 
 	  });
   }
+
+  function generatePdfForForm() {
+		$("#generatePDFButton").click(function() {
+			var wNumber = '<%=loggedInUser.getUserId()%>';
+			<%if(formToFillOut != null) {%>
+				var formId = '<%=formToFillOut.getUserFormId()%>';
+			<%}%>
+
+			if (formId) {
+				;
+			} else {
+				alert("No form selected. Please select a form before attempting to download a PDF.")
+			}
+		});
+	}
   
   
   function showFormToEdit(formId) {
