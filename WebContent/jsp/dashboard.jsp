@@ -233,9 +233,10 @@
 			url: "../ServletUser",
 			type: "POST",
 			data: {userId: wNumber, type: 'getUserToEdit'},
-			success: function data() {
+			success: function data(jsonObj) {
+				showUserToEditInfo(jsonObj.userToBeEdited.userId, jsonObj.userToBeEdited.userFirst, jsonObj.userToBeEdited.userLast, jsonObj.userToBeEdited.userEmail, jsonObj.userToBeEdited.userYear, jsonObj.userToBeEdited.userActive, jsonObj.userToBeEdited.userAdmin);
+				showEditUserWithLoadedInfo();
 					<%isEditingUser = true;%>
-					//window.location.reload();
 			}
 			
 		});

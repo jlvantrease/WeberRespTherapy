@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -98,7 +99,7 @@ public class DatabaseCalls {
 
 	//___________________________________________________________________________________________________________________
 
-	public boolean createUser(String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin) {
+	public boolean createUser(String wNumber, String firstName, String lastName, String email, String year, boolean isAdmin) {
 		User user = new User();
 		user.setUserId(wNumber);
 		user.setUserFirst(firstName);
@@ -128,7 +129,7 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 
-	public User updateUser(Connection conn, String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
+	public User updateUser(Connection conn, String wNumber, String firstName, String lastName, String email, String year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
 		//todo add select statement to get the changes to the user.
 		//if admin simply rerun getAllUsers
 		User theUpdatedUser = null;
@@ -138,7 +139,7 @@ public class DatabaseCalls {
 		String query = "CALL sp_UpdateUser(?,?,?,?,?,?,?,?)";
 		
 		try {
-			
+			SimpleDateFormat formatter = new SimpleDateFormat();
 			statement = conn.prepareStatement(query);
 			
 			statement.setString(1, wNumber);
@@ -148,7 +149,7 @@ public class DatabaseCalls {
 			statement.setBoolean(5, needsResetPassword);
 			statement.setString(6, email);
 			statement.setBoolean(7, isActive);
-			statement.setDate(8, new java.sql.Date(year.getTime()));
+			statement.setDate(8, new java.sql.Date(formatter.parse(year).getTime()));
 						
 			//execute the query to update the user
 			statement.executeQuery();

@@ -1,6 +1,7 @@
 package edu.weber.resptherapy.charting;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import net.sf.json.JSONObject;
 
 import edu.weber.resptherapy.charting.model.User;
 
@@ -111,9 +113,12 @@ public class ServletUser extends HttpServlet {
 			response.sendRedirect("dashboard.jsp");
 		
 		}else if(type.equals("getUserToEdit")){
-			
-			session.setAttribute("userToBeEdited", userToBeEdited(request.getParameter("userId")));
-			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+			JSONObject json = new JSONObject();
+			json.put("userToBeEdited", userToBeEdited(request.getParameter("userId")));
+			response.setContentType("application/json");
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
 			return;
 	
 		}else if (type.equals("resetpassword")) {
@@ -140,21 +145,15 @@ public class ServletUser extends HttpServlet {
 			boolean admin = Boolean.parseBoolean((String) request.getParameter("isAdmin"));
 			String yearStr = request.getParameter("userYear").toString();
 			
-			Date userYear = new Date();
+			String userYear = "";
 			
 			if (yearStr.equals("")) {
 				
-				userYear = new Date();
+				userYear = "";
 			}else{
 				
-				DateFormat format = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-				try {
-					userYear = format.parse(yearStr);
-				} catch (ParseException e) {
-					e.printStackTrace();
-					
-					System.out.println("Failed to parse date from user year");
-				}
+
+					userYear = yearStr;
 			}
 			
 			//if we did NOT successfully create a new user
@@ -178,22 +177,14 @@ public class ServletUser extends HttpServlet {
 			String yearStr = request.getParameter("userYear").toString();
 			boolean isActive = Boolean.parseBoolean((String) request.getParameter("isActive"));
 			boolean needsResetPassword = Boolean.parseBoolean((String) request.getParameter("needsResetPassword"));
-			
-			Date userYear = new Date();
+
+			String userYear;
 			
 			if (yearStr.equals("")) {
 				
-				userYear = null;
+				userYear = "";
 			}else{
-				
-				DateFormat format = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-				try {
-					userYear = format.parse(yearStr);
-				} catch (ParseException e) {
-					e.printStackTrace();
-					
-					System.out.println("Failed to parse date from user year");
-				}
+				userYear = yearStr;
 			}
 			
 			
@@ -225,7 +216,7 @@ public class ServletUser extends HttpServlet {
 	
 	//___________________________________________________________________________________________________________________
 	
-	public boolean createUser(String wNumber, String firstName, String lastName, String email, Date year, boolean isAdmin){
+	public boolean createUser(String wNumber, String firstName, String lastName, String email, String year, boolean isAdmin){
 		
 		try {
 			DatabaseCalls calls = new DatabaseCalls();
@@ -260,7 +251,7 @@ public class ServletUser extends HttpServlet {
 	}
 	
 	
-	public User updateUser(String wNumber, String firstName, String lastName, String email, Date year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
+	public User updateUser(String wNumber, String firstName, String lastName, String email, String year, boolean needsResetPassword, boolean isActive, boolean isAdmin){
 		try {
 			DatabaseCalls calls = new DatabaseCalls();
 			
