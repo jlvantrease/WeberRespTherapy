@@ -19,6 +19,20 @@ import java.io.StringReader;
 @WebServlet("/ServletFormDownload")
 public class ServletFormDownload extends HttpServlet {
 
+  private static final long serialVersionUID = 1L;
+
+  //___________________________________________________________________________________________________________________
+
+  /**
+   * @see HttpServlet#HttpServlet()
+   */
+  public ServletFormDownload() {
+    super();
+  }
+
+  //___________________________________________________________________________________________________________________
+
+
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String errMsg = "POST Method not allowed for 'ServletFormDownload' endpoint.";
     response.sendError(405, errMsg);

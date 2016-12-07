@@ -18,10 +18,6 @@
         <servlet-name>ServletFormDownload</servlet-name>
         <servlet-class>edu.weber.resptherapy.charting.ServletFormDownload</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>ServletFormDownload</servlet-name>
-        <url-pattern>/downloadForm</url-pattern>
-    </servlet-mapping>
   
    <resource-ref>
       <description>DB Connection</description>
