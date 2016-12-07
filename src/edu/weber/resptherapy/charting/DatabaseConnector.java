@@ -193,7 +193,7 @@ public class DatabaseConnector {
 	    u.setUserPassReset(false);
 	    u.setUserActive(false);
 	    u.setUserEmail("student@weber.edu");
-	    u.setUserYear(new Date());
+	    u.setUserYear("");
 	    
 		try {		
 			Session session = DatabaseConnector.getCurrentSession();

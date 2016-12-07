@@ -29,7 +29,7 @@
         <property name="userEmail" type="string">
             <column name="UserEmail" length="45" />
         </property>
-        <property name="userYear" type="date">
+        <property name="userYear" type="string">
             <column name="UserYear" length="10" not-null="true" />
         </property>
         <!-- set name="userforms" table="userform" inverse="true" lazy="true" fetch="select">

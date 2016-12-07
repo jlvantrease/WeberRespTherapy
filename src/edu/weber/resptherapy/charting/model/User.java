@@ -20,7 +20,7 @@ public class User implements java.io.Serializable {
      private boolean userPassReset;
      private boolean userActive;
      private String userEmail;
-     private Date userYear;
+     private String userYear;
      private Set userforms = new HashSet(0);
 
     public User() {
@@ -31,7 +31,7 @@ public class User implements java.io.Serializable {
    }
 
 	
-    public User(String userId, String userFirst, String userLast, String password, boolean userAdmin, boolean userPassReset, boolean userActive, Date userYear) {
+    public User(String userId, String userFirst, String userLast, String password, boolean userAdmin, boolean userPassReset, boolean userActive, String userYear) {
         this.userId = userId;
         this.userFirst = userFirst;
         this.userLast = userLast;
@@ -41,7 +41,7 @@ public class User implements java.io.Serializable {
         this.userActive = userActive;
         this.userYear = userYear;
     }
-    public User(String userId, String userFirst, String userLast, String password, boolean userAdmin, boolean userPassReset, boolean userActive, String userEmail, Date userYear, Set userforms) {
+    public User(String userId, String userFirst, String userLast, String password, boolean userAdmin, boolean userPassReset, boolean userActive, String userEmail, String userYear, Set userforms) {
        this.userId = userId;
        this.userFirst = userFirst;
        this.userLast = userLast;
@@ -110,11 +110,11 @@ public class User implements java.io.Serializable {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
-    public Date getUserYear() {
+    public String getUserYear() {
         return this.userYear;
     }
     
-    public void setUserYear(Date userYear) {
+    public void setUserYear(String userYear) {
         this.userYear = userYear;
     }
     public Set getUserforms() {
