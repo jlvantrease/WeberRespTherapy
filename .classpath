@@ -17,5 +17,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Lib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/WEB-INF-Lib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/WEB-INF_lib"/>
+	<classpathentry kind="lib" path="/usr/local/apache-tomcat-8.5.9/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="out/production/WeberRespiratoryTherapy"/>
 </classpath>
