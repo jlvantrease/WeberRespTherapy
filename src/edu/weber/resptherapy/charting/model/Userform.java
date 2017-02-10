@@ -15,6 +15,7 @@ public class Userform implements java.io.Serializable {
      private String formTemplateHtml;
      private String userFormName;
      private Date userFormLastEdit;
+     private String formDataValues;
 
     public Userform() {
     }
@@ -25,11 +26,12 @@ public class Userform implements java.io.Serializable {
         this.userFormName = userFormName;
         this.userFormLastEdit = userFormLastEdit;
     }
-    public Userform(User user, String formTemplateHtml, String userFormName, Date userFormLastEdit) {
+    public Userform(User user, String formTemplateHtml, String formDataValues, String userFormName, Date userFormLastEdit) {
        this.user = user;
        this.formTemplateHtml = formTemplateHtml;
        this.userFormName = userFormName;
        this.userFormLastEdit = userFormLastEdit;
+       this.formDataValues = formDataValues;
     }
    
     public Integer getUserFormId() {
@@ -68,8 +70,13 @@ public class Userform implements java.io.Serializable {
         this.userFormLastEdit = userFormLastEdit;
     }
 
+    public String getFormDataValues() {
+        return this.formDataValues;
+    }
 
-
+    public void setFormDataValues(String formDataValues) {
+        this.formDataValues = formDataValues;
+    }
 
 }
 

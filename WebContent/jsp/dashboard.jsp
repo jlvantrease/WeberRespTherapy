@@ -274,6 +274,7 @@
 
   function saveFilledOutForm() {
 	  var theFormHtml = $("#templateFormHtml").html();
+		var theFormData = JSON.stringify($("#templateFormHtml form:first-of-type").serializeArray());
 	  var userNumber = '<%=loggedInUser.getUserId()%>';
 	  if($("#formName").val() != null && $("#formName").val().length > 2) {
 		 var nameOfForm =  $("#formName").val();
@@ -286,10 +287,13 @@
 	  $.ajax({
  			url: "../ServletForms",
  			type: "POST",
- 			data: {type: 'createForm',
+ 			data: {
+				type: 'createForm',
  				formHTML: theFormHtml,
+				formData: theFormData,
  				formName: nameOfForm,
- 				userID: userNumber},
+ 				userID: userNumber
+			},
  			success: function(data)
  			{  				
  				alert("Form saved!");
@@ -301,6 +305,7 @@
   function saveEditedFilledOutForm() {
 	  $("#saveEditedFormButton").click(function() {
 		  var formHtml = $("#templateFormHtml").html();
+			var theFormData = JSON.stringify($("#templateFormHtml form:first-of-type").serializeArray());
 		  var wNumber = '<%=loggedInUser.getUserId()%>';
 		  var formName = '<%=loggedInUser.getUserId()%>';
 		  
@@ -318,11 +323,14 @@
 		  $.ajax({
   			url: "../ServletForms",
   			type: "POST",
-  			data: {type: 'updateForm',
+  			data: {
+					type: 'updateForm',
   				theFormHTML: formHtml,
   				theFormName: nameOfForm,
+					formData: theFormData,
   				userId: wNumber, 
-  				theFormId: formId},
+  				theFormId: formId
+  			},
   			success: function(data)
   			{  				
   				alert("Form updated!");

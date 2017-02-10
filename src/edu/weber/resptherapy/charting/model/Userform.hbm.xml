@@ -14,6 +14,9 @@
         <property name="formTemplateHtml" type="string">
             <column name="FormTemplateHTML" />
         </property>
+        <property name="formDataValues" type="string">
+            <column name="FormDataValues" />
+        </property>
         <property name="userFormName" type="string">
             <column name="UserFormName" length="45" not-null="true" />
         </property>
