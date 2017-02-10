@@ -303,42 +303,39 @@
   }
   
   function saveEditedFilledOutForm() {
-	  $("#saveEditedFormButton").click(function() {
-		  var formHtml = $("#templateFormHtml").html();
-			var theFormData = JSON.stringify($("#templateFormHtml form:first-of-type").serializeArray());
-		  var wNumber = '<%=loggedInUser.getUserId()%>';
-		  var formName = '<%=loggedInUser.getUserId()%>';
-		  
-		  <%if(formToFillOut != null) {%>
-		  	var formId = '<%=formToFillOut.getUserFormId()%>';
-		  <%}%>
-			  
-		  if($("#formName").val() != null) {
-			 var nameOfForm =  $("#formName").val();
-		  }
-		  else {
-			  alert("Please enter a form name");
-		  }
-		  
-		  $.ajax({
-  			url: "../ServletForms",
-  			type: "POST",
-  			data: {
-					type: 'updateForm',
-  				theFormHTML: formHtml,
-  				theFormName: nameOfForm,
-					formData: theFormData,
-  				userId: wNumber, 
-  				theFormId: formId
-  			},
-  			success: function(data)
-  			{  				
-  				alert("Form updated!");
-  				window.location.reload();
-  			}
-  		});
-
-	  });
+		var formHtml = $("#templateFormHtml").html();
+		var theFormData = JSON.stringify($("#templateFormHtml form:first-of-type").serializeArray());
+		var wNumber = '<%=loggedInUser.getUserId()%>';
+		var formName = '<%=loggedInUser.getUserId()%>';
+		
+		<%if(formToFillOut != null) {%>
+			var formId = '<%=formToFillOut.getUserFormId()%>';
+		<%}%>
+			
+		if($("#formName").val() != null) {
+		 var nameOfForm =  $("#formName").val();
+		}
+		else {
+			alert("Please enter a form name");
+		}
+		
+		$.ajax({
+			url: "../ServletForms",
+			type: "POST",
+			data: {
+				type: 'updateForm',
+				theFormHTML: formHtml,
+				theFormName: nameOfForm,
+				formData: theFormData,
+				userId: wNumber, 
+				theFormId: formId
+			},
+			success: function(data)
+			{  				
+				alert("Form updated!");
+				window.location.reload();
+			}
+		});
   }
 
   function generatePdfForForm() {
