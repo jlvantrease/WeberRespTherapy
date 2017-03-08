@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="edu.weber.resptherapy.charting.model.Patient" table="patient" catalog="therapy" optimistic-lock="version">
+    <id name="patientId" type="java.lang.Integer">
+      <column name="patientId" />
+      <generator class="identity" />
+    </id>
+    <property name="firstName" type="string">
+      <column name="firstName" length="255" not-null="true" />
+    </property>
+    <property name="lastName" type="string">
+      <column name="lastName" length="255" not-null="true" />
+    </property>
+    <property name="middleName" type="string">
+      <column name="middleName" length="255" />
+    </property>
+    <property name="dateOfBirth" type="java.util.Date">
+      <column name="dateOfBirth" />
+    </property>
+    <property name="gender" type="string">
+      <column name="gender" length="1" />
+    </property>
+    <property name="phoneNumber" type="string">
+      <column name="gender" length="50" />
+    </property>
+  </class>
+</hibernate-mapping>
