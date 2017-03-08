@@ -48,7 +48,30 @@ CREATE TABLE UserForm (
 );
 grant all on therapy.UserForm to adminFxASVVU;
 
+-- Haydn Slade
+CREATE TABLE Patient (
+  patientId INT(11) NOT NULL AUTO_INCREMENT,
+  firstName VARCHAR(255) NOT NULL,
+  lastName VARCHAR(255) NOT NULL,
+  middleName VARCHAR(255),
+  dateOfBirth DATE,
+  gender VARCHAR(1),
+  phoneNumber VARCHAR(50),
+  PRIMARY KEY (patientId)
+);
+grant all on therapy.Patient to adminFxASVVU;
+
 commit;
+
+--
+--
+--  Updates to tables above
+--
+--
+ALTER TABLE UserForm ADD COLUMN (patientId INT(11));
+ALTER TABLE UserForm ADD FOREIGN KEY fk_patient(patientId) REFERENCES Patient(patientId);
+
+COMMIT;
 
 -- 
 --
