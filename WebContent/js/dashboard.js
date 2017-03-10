@@ -81,16 +81,27 @@ function showUserDashboard() {
 	$(".menuFilters").hide();
  	showMainDashboard();
  	setLeftButtonToShowPersonalForms();
+ 	setLeftButtonToCreateTemplate();
+}
+
+function setLeftButtonToCreateTemplate() {
+
+	 $("#secondLeftListButton").text("Create New Form")
+	 .show(); //TODO reove comment added second button
+	 userNewTherapyForm();
 }
 
 function setLeftButtonToShowPersonalForms() {
-	$("#leftListButton").text("Start New Form");
+	$("#leftListButton").text("Create from template");
 	$("#leftListButton").show();
-	
+
+
 	$("#leftListButton").click(function() {
 		$("#therapyFilters").show();
 		$("#therapyDraftsButton").hide();
+        $("#formBuilder").hide();
 		setLeftButtonToStartNewForm();
+
 	});
 	
 	showFormsOfUserLinks();
@@ -99,11 +110,14 @@ function setLeftButtonToShowPersonalForms() {
 function setLeftButtonToStartNewForm() {
 	$("#leftListButton").text("Forms List");
 	$("#leftListButton").show();
+	$("#secondLeftListButton").hide();
 	
 	$("#leftListButton").click(function() {
 		$("#therapyFilters").show();
 		$(".menuFilters").hide();
-		setLeftButtonToShowPersonalForms();
+		$("#secondLeftListButton").show();
+		$("#formBuilder").hide();
+        setLeftButtonToShowPersonalForms();
 	});
 }
 
@@ -524,6 +538,13 @@ function setAddTherapyFunctionToButton() {
 		$('#contentHolder').children().hide();
 		$('#formBuilder').show();
 	});
+}
+
+function userNewTherapyForm() {
+    $("#secondLeftListButton").click(function() {
+        $('#contentHolder').children().hide();
+        $('#formBuilder').show();
+    });
 }
 
 function setUserFormsFunctionality() {

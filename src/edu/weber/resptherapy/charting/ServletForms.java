@@ -44,7 +44,7 @@ public class ServletForms extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		System.out.print("Debug: doPost");
 		String type = request.getParameter("type");
 		
 		HttpSession session = request.getSession();

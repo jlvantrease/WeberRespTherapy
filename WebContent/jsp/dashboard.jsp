@@ -93,6 +93,7 @@
 	<div class="leftSideBackground"></div>
 	<div class="leftListDiv">
 		<button id="leftListButton" style="display: none;"></button>
+		<button id="secondLeftListButton" style="display: none;"></button><!-- add a second button for userform -->
 		<hr class="leftListHR">
 		<div class="leftListHeading">&nbsp;</div>
 		<hr class="leftListHR">
@@ -275,6 +276,7 @@
   function saveFilledOutForm() {
 	  var theFormHtml = $("#templateFormHtml").html();
 	  var userNumber = '<%=loggedInUser.getUserId()%>';
+	  console.log("Debug: savedFilleoutForm method ; " + theFormHtml); //TODO remove debug statement
 	  if($("#formName").val() != null && $("#formName").val().length > 2) {
 		 var nameOfForm =  $("#formName").val();
 	  }
@@ -297,7 +299,7 @@
  			}
  		});
   }
-  
+
   function saveEditedFilledOutForm() {
 	  $("#saveEditedFormButton").click(function() {
 		  var formHtml = $("#templateFormHtml").html();
@@ -310,7 +312,8 @@
 			  
 		  if($("#formName").val() != null) {
 			 var nameOfForm =  $("#formName").val();
-		  }
+              console.log("Test") //TODO remove later Jason's Debug
+          }
 		  else {
 			  alert("Please enter a form name");
 		  }
@@ -638,9 +641,11 @@
 		event.preventDefault();
 		console.log("saveForm clicked");
 		var formHTML = source.getValue();
+		console.log (formHTML.toString()); //TODO remove: the HTML after the form builder saves the form
+		ServletForms
 
 		$.ajax({
-			url : "../ServletTherapy",
+			url : "..src\edu\weber\resptherapy\charting\ServletTherapy.java",
 			type : "POST",
 			data : {
 				type : templateOperation,

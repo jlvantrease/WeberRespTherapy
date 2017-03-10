@@ -26,6 +26,8 @@ import edu.weber.resptherapy.charting.model.User;
 public class ServletUser extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private String relPath = "/WeberRespiratoryTherapy";
+
 	   
 	//___________________________________________________________________________________________________________________
 	
@@ -84,7 +86,8 @@ public class ServletUser extends HttpServlet {
 				
 				//pass all information forward to the dashboard.jsp
 				//TODO can't hard code local host - make into a property
-				response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+				System.out.println("TestJLV: here we are" + request.getContextPath()); //TODO remove
+				response.sendRedirect(relPath + "/jsp/dashboard.jsp");
 			}
 			//if login is UNsuccessful
 			else{
@@ -102,7 +105,7 @@ public class ServletUser extends HttpServlet {
 
 			session.invalidate();
 			
-			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/login.jsp");
+			response.sendRedirect(relPath + "/login.jsp");
 						
 		}else if(type.equals("getAllUsers")){
 			
@@ -110,7 +113,7 @@ public class ServletUser extends HttpServlet {
 			
 			System.out.println(session.getAttribute("allUsers").toString());
 			
-			response.sendRedirect("dashboard.jsp");
+			response.sendRedirect("dashboard.jsp"); // TODO this doesn't look like it should redirect anywhere
 		
 		}else if(type.equals("getUserToEdit")){
 			JSONObject json = new JSONObject();
@@ -133,8 +136,8 @@ public class ServletUser extends HttpServlet {
 			String wNumber = request.getParameter("wNumber").toString();
 			String theNewPassword = request.getParameter("theNewPassword").toString();
 			changePassword(wNumber, theNewPassword);
-			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
-			return;
+			response.sendRedirect(relPath + "/jsp/dashboard.jsp");
+			return; // TODO should be able to remove
 			
 		}else if (type.equals("createUser")) {
 			
@@ -162,7 +165,7 @@ public class ServletUser extends HttpServlet {
 				session.setAttribute("failedUserCreation", true);
 			}
 			else{
-				response.sendRedirect("dashboard.jsp");
+				response.sendRedirect("dashboard.jsp"); // TODO doesn't seem redirect correctly
 			}
 			
 		}else if (type.equals("updateUser")){

@@ -21,8 +21,10 @@ import net.sf.json.JSONObject;
 @WebServlet("/ServletTherapy")
 public class ServletTherapy extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    //___________________________________________________________________________________________________________________
+	private String relPath = "/WeberRespiratoryTherapy";
+
+
+	//___________________________________________________________________________________________________________________
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -50,7 +52,7 @@ public class ServletTherapy extends HttpServlet {
 		String type = request.getParameter("type");
 		
 		HttpSession session = request.getSession();
-		
+
 		if (type.equals("createTemplate")) {
 			System.out.println("Creating template");
 			
@@ -90,7 +92,7 @@ public class ServletTherapy extends HttpServlet {
 			updateTemplate(0, templateName,templateHTML);
 			
 			session.setAttribute("allTemplates", getAllTemplates());
-			response.sendRedirect("http://localhost:8080/WeberRespiratoryTherapy/jsp/dashboard.jsp");
+			response.sendRedirect( relPath + "/jsp/dashboard.jsp");
 
 
 		}

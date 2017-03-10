@@ -1,4 +1,5 @@
 -- CREATE SCHEMA therapy;
+CREATE SCHEMA IF NOT  EXISTS therapy;
 USE therapy;
 drop TABLE IF EXISTS UserForm;
 drop TABLE IF EXISTS User;
@@ -19,7 +20,7 @@ CREATE TABLE User (
 
 ALTER TABLE User
 ADD PRIMARY KEY (UserID);
-grant all on therapy.user to adminFxASVVU;
+grant all on therapy.user to root;
 
 -- Haydn Slade
 CREATE TABLE FormTemplate (
@@ -32,7 +33,7 @@ CREATE TABLE FormTemplate (
   FormTemplateSegment BIT(1),
   PRIMARY KEY (FormTemplateId)
 );
-grant all on therapy.FormTemplate to adminFxASVVU;
+grant all on therapy.FormTemplate to root;
 
 -- Steve Aguirre
 CREATE TABLE UserForm (
@@ -45,7 +46,7 @@ CREATE TABLE UserForm (
 	FOREIGN KEY fk_user(UserID)
    	REFERENCES User(UserID)
 );
-grant all on therapy.UserForm to adminFxASVVU;
+grant all on therapy.UserForm to root;
 
 commit;
 

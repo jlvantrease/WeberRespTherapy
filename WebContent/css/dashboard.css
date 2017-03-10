@@ -173,6 +173,15 @@
 	text-align:center;
 }
 
+#secondLeftListButton {
+	color:black;
+	font-size:12px;
+	white-space:nowrap;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align:center;
+}
+
 .leftListHR {
 	width:95%; 
 	text-align:center; 
