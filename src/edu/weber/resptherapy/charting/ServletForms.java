@@ -54,8 +54,9 @@ public class ServletForms extends HttpServlet {
 			String theFormHtml = request.getParameter("formHTML");
 			String userId = request.getParameter("userID");
 			String theFormName = request.getParameter("formName");
+			String theFormData = request.getParameter("formData");
 			
-			createForm(theFormHtml, userId, theFormName);
+			createForm(theFormHtml, theFormData, userId, theFormName);
 			session.setAttribute("userForms", getAllForms(userId));
 
 		}	else if (type.equals("getAllForms")) {
@@ -67,9 +68,10 @@ public class ServletForms extends HttpServlet {
 			String theFormHtml = request.getParameter("theFormHTML");
 			String userId = request.getParameter("userId");
 			String theFormName = request.getParameter("theFormName");
+			String theFormData = request.getParameter("formData");
 			int theFormId = Integer.valueOf(request.getParameter("theFormId"));
 			
-			updateForm(theFormName, theFormHtml, theFormId, userId);
+			updateForm(theFormName, theFormHtml, theFormData, theFormId, userId);
 			session.setAttribute("userForms", getAllForms(userId));
 
 		} else if (type.equals("getFormToEdit")) {
@@ -84,7 +86,7 @@ public class ServletForms extends HttpServlet {
 	//___________________________________________________________________________________________________________________
 	
 	//boolean createForm()
-	private boolean createForm(String theFormHtml, String userId, String theFormName){
+	private boolean createForm(String theFormHtml, String formDataValues, String userId, String theFormName){
 		
 		Date todaysDate = new Date();
 		
@@ -96,7 +98,7 @@ public class ServletForms extends HttpServlet {
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.createForm(theFormHtml, userId, todaysDate, theFormName);
+			return calls.createForm(theFormHtml, formDataValues , userId, todaysDate, theFormName);
 		
 //		}catch(Exception e){
 //			e.printStackTrace();
@@ -124,7 +126,7 @@ public class ServletForms extends HttpServlet {
 	}
 	
 	//boolean updateForm()
-	private boolean updateForm(String theFormName, String theFormHtml, int theFormId, String theUserId){
+	private boolean updateForm(String theFormName, String theFormHtml, String formDataValues, int theFormId, String theUserId){
 		
 //		DatabaseConnector connector = new DatabaseConnector();
 //		
@@ -134,7 +136,7 @@ public class ServletForms extends HttpServlet {
 			
 			DatabaseCalls calls = new DatabaseCalls();
 			
-			return calls.updateForm( theFormName, theFormHtml, theFormId, theUserId);
+			return calls.updateForm( theFormName, theFormHtml, formDataValues, theFormId, theUserId);
 		
 		}catch(Exception e){
 			e.printStackTrace();

@@ -1,6 +1,5 @@
 package edu.weber.resptherapy.charting;
 
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -229,7 +228,7 @@ public class DatabaseCalls {
 	
 	//UserForm block
 	
-	public boolean updateForm( String userFormName, String theFormtemplateHtml, int userFormId, String wNumber){
+	public boolean updateForm(String userFormName, String theFormtemplateHtml, String formDataValues, int userFormId, String wNumber){
 
 		edu.weber.resptherapy.charting.model.Userform userform = null;
 		try {
@@ -247,10 +246,14 @@ public class DatabaseCalls {
 			}
 
 			userform = results.get(0);
-			userform.setUserFormName(userFormName);
+			if(userFormName != null && userFormName != "") {
+				userform.setUserFormName(userFormName);
+			}
 			userform.setFormTemplateHtml(theFormtemplateHtml);
+			userform.setFormDataValues(formDataValues);
 			session.saveOrUpdate(userform);
 			tx.commit();
+			
 		} catch (Exception e){
 			//log.error(e.getMessage(), e);
 			throw new RuntimeException(e.getMessage());
@@ -295,11 +298,12 @@ public class DatabaseCalls {
 	
 	//___________________________________________________________________________________________________________________
 	
-	public boolean createForm( String formTemplateHtml, String userId, Date lastEdit, String formName){
+	public boolean createForm(String formTemplateHtml, String formDataValues, String userId, Date lastEdit, String formName){
 
 		Userform userform = new Userform();
 		userform.setUserFormName(formName);
 		userform.setFormTemplateHtml(formTemplateHtml);
+		userform.setFormDataValues(formDataValues);
 		userform.setUserFormLastEdit(lastEdit);
 		userform.setUser(userToBeEdited(userId));
 

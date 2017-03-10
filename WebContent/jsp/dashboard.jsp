@@ -273,34 +273,9 @@
     }
   
 
-  function saveFilledOutForm() {
-	  var theFormHtml = $("#templateFormHtml").html();
-	  var userNumber = '<%=loggedInUser.getUserId()%>';
-	  console.log("Debug: savedFilleoutForm method ; " + theFormHtml); //TODO remove debug statement
-	  if($("#formName").val() != null && $("#formName").val().length > 2) {
-		 var nameOfForm =  $("#formName").val();
-	  }
-	  else {
-		  alert("Please enter a form name");
-		  return;
-	  }
-	  
-	  $.ajax({
- 			url: "../ServletForms",
- 			type: "POST",
- 			data: {type: 'createForm',
- 				formHTML: theFormHtml,
- 				formName: nameOfForm,
- 				userID: userNumber},
- 			success: function(data)
- 			{  				
- 				alert("Form saved!");
- 				window.location.reload();
- 			}
- 		});
-  }
 
   function saveEditedFilledOutForm() {
+
 	  $("#saveEditedFormButton").click(function() {
 		  var formHtml = $("#templateFormHtml").html();
 		  var wNumber = '<%=loggedInUser.getUserId()%>';
@@ -334,6 +309,41 @@
   		});
 
 	  });
+
+		var formHtml = $("#templateFormHtml").html();
+		var theFormData = JSON.stringify($("#templateFormHtml form:first-of-type").serializeArray());
+		var wNumber = '<%=loggedInUser.getUserId()%>';
+		var formName = '<%=loggedInUser.getUserId()%>';
+		
+		<%if(formToFillOut != null) {%>
+			var formId = '<%=formToFillOut.getUserFormId()%>';
+		<%}%>
+			
+		if($("#formName").val() != null) {
+		 var nameOfForm =  $("#formName").val();
+		}
+		else {
+			alert("Please enter a form name");
+		}
+		
+		$.ajax({
+			url: "../ServletForms",
+			type: "POST",
+			data: {
+				type: 'updateForm',
+				theFormHTML: formHtml,
+				theFormName: nameOfForm,
+				formData: theFormData,
+				userId: wNumber, 
+				theFormId: formId
+			},
+			success: function(data)
+			{  				
+				alert("Form updated!");
+				window.location.reload();
+			}
+		});
+>>>>>>> 6b1491b57fbafd069af795e0783ea432a4abf2b2
   }
 
   function generatePdfForForm() {
