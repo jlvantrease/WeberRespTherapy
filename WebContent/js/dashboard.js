@@ -1,4 +1,6 @@
 //Add initial functionality to links and buttons when the page first loads
+
+
 function setFunctionality() {
 	addFunctionToTabs();
 	setFunctionToUserIcon();
@@ -143,7 +145,7 @@ function addFunctionToTabs() {
 		$("#therapyFilters").removeClass("hideFilters");
 		$("#userFilters").addClass("hideFilters");
 	});
-	
+
 	$("#usersTab").click(function() {
 		showAddUserButton();
 		$("#therapiesTab").removeClass("active");
@@ -151,7 +153,15 @@ function addFunctionToTabs() {
 		$("#therapyFilters").addClass("hideFilters");
 		$("#userFilters").removeClass("hideFilters");
 	});
-	
+    //TODO finish patientsTab
+    $("#patientsTab").click(function(){
+        showAddPatientButton();
+        $("#therapiesTab").removeClass("active");
+        $("#usersTab").removeClass("active");
+        $("#therapyFilters").addClass("hideFilters");
+        $("#userFilters").addClass("hideFilters");
+    });
+
 	$(".filterButton").click(function() {
 		$(".filterButton").removeClass("active");
 		$(this).addClass("active");
@@ -173,6 +183,13 @@ function showAddUserButton() {
 	$("#leftListButton").show();
 	setAddUserFunctionToButton();
 	
+}
+
+//TODO create Add Patient button
+function showAddPatientButton(){
+	$("#leftListButton").text("Add new Patient");
+	$("#leftListButton").show();
+	 setAddPatientFunctionToButton();
 }
 
 //Show the User Information display with blank fields (no existing user info)
@@ -538,6 +555,15 @@ function setAddTherapyFunctionToButton() {
 		$('#contentHolder').children().hide();
 		$('#formBuilder').show();
 	});
+}
+
+function setAddPatientFunctionToButton() {
+
+    $("#leftListButton").click(function() {
+        $('#contentHolder').children().hide();
+        $('#patientForm').show()
+
+    });
 }
 
 function userNewTherapyForm() {

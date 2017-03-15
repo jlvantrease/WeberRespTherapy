@@ -86,7 +86,7 @@ public class ServletUser extends HttpServlet {
 				
 				//pass all information forward to the dashboard.jsp
 				//TODO can't hard code local host - make into a property
-				System.out.println("TestJLV: here we are" + request.getContextPath()); //TODO remove
+
 				response.sendRedirect(relPath + "/jsp/dashboard.jsp");
 			}
 			//if login is UNsuccessful

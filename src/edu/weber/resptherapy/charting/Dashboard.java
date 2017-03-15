@@ -172,6 +172,7 @@ public class Dashboard {
 //TODO			if(!allUsers.get(key).isActive()) {
 //				inactiveUsers.put(key, allUsers.get(key));
 //			}
+
 		}
 		
 		return inactiveUsers;

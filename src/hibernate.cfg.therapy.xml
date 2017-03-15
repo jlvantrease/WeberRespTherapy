@@ -12,6 +12,7 @@
     <mapping resource="edu/weber/resptherapy/charting/model/User.hbm.xml"/>
     <mapping resource="edu/weber/resptherapy/charting/model/Userform.hbm.xml"/>
     <mapping resource="edu/weber/resptherapy/charting/model/Formtemplate.hbm.xml"/>
+    <mapping resource="edu/weber/resptherapy/charting/model/Patient.hbm.xml"/>
 
   </session-factory>
 </hibernate-configuration>

@@ -10,7 +10,6 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
-  
    <resource-ref>
       <description>DB Connection</description>
       <res-ref-name>jdbc/weberRespDB</res-ref-name>

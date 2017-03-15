@@ -3,7 +3,6 @@ package edu.weber.resptherapy.charting;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

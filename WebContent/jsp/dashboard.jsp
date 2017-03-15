@@ -4,6 +4,7 @@
 <%@ page import="edu.weber.resptherapy.charting.model.Formtemplate"%>
 <%@ page import="edu.weber.resptherapy.charting.model.User"%>
 <%@ page import="edu.weber.resptherapy.charting.model.Userform"%>
+<%@ page import="edu.weber.resptherapy.charting.model.Patient"%>
 <%@ page import="java.io.BufferedReader"%>
 <%@ page import="java.io.StringReader"%>
 <%@ page import="java.util.ArrayList"%>
@@ -107,6 +108,7 @@
 				Forms</div>
 			<div class="menuTab btn btn-default active" id="therapiesTab">Therapies</div>
 			<div class="menuTab btn btn-default" id="usersTab">Users</div>
+			<div class="menuTab btn btn-default" id="patientsTab">Patients</div>
 		</div>
 	</div>
 	<div class="menuFilters" id="therapyFilters">
@@ -137,6 +139,7 @@
 		</div>
 
 		<div id="formBuilder"><jsp:include page="formBuilder.html" /></div>
+		<div id="patientForm"><jsp:include page="patientForm.jsp" /></div>
 
 		<div id="templateForm" style="display: none;">
 			Form Name: <input type="text" id="formName" />
@@ -271,8 +274,6 @@
     		}	
     	});
     }
-  
-
 
   function saveEditedFilledOutForm() {
       var formHtml = $("#templateFormHtml").html();
@@ -614,7 +615,7 @@
 
 	$('#saveForm').click(function(event) {
 		event.preventDefault();
-		console.log("saveForm clicked");
+		console.log("saveForm clicked 9");
 		var formHTML = source.getValue();
 		console.log (formHTML.toString()); //TODO remove: the HTML after the form builder saves the form
 		ServletForms
@@ -637,7 +638,34 @@
 
 	});
 
-	$('#content_form_name').click(function() {
+    $("#newPatientSaveButton").click(function(event) {
+        event.preventDefault();
+        console.log("Save Patient Clicked");
+        var formHTML = source.getValue();
+        console.log (formHTML.toString()); //TODO remove: the HTML after the form builder saves the form
+
+
+        $.ajax({
+            url : "../ServletPatient",
+            type : "POST",
+            data :  {
+                firstName: $('#firstNamePatient').val(),
+                middleName: $('#middleNamePatient').val(),
+                lastName: $('#lastNamePatient').val(),
+                dob: $('#dobPatient').val(),
+                gender: $('#genderPatient').val(),
+                phone: $('#phonePatient').val(),
+                type: 'createPatient'
+            },
+            success : function(data) {
+                $(location).attr('href', "/jsp/dashboard.jsp");
+                location.reload();
+            }
+        });
+        return false;
+    });
+
+    $('#content_form_name').click(function() {
 		var formName = $('#content_form_name > legend').text();
 		if (formName == "Form Name") {
 			$('#content_form_name > legend').text('');
